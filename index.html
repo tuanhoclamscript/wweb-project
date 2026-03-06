@@ -11,12 +11,18 @@
         body { 
             font-family: 'Quicksand', sans-serif; margin: 0; padding: 20px; 
             min-height: 100vh; display: flex; justify-content: center; align-items: center;
+            /* Background chuyển màu động */
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%; animation: gradientBG 15s ease infinite;
         }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
         .glass-panel { 
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             width: 100%; max-width: 450px; padding: 35px 30px; 
             border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.18); box-sizing: border-box;
@@ -48,7 +54,7 @@
         button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.6); }
         button:disabled { background: #a0aec0; cursor: not-allowed; transform: none; box-shadow: none;}
         #result { 
-            display: none; margin-top: 20px; padding: 20px; 
+            display: none; margin-top: 25px; padding: 20px; 
             background: linear-gradient(to right, #f6f8fd, #f1f6fe); 
             border-radius: 12px; text-align: center; border: 1px dashed #b5c4f3; animation: fadeIn 0.5s ease;
         }
@@ -61,12 +67,12 @@
         }
         #result a:hover { color: #c53030; transform: scale(1.05); }
         
-        /* FOOTER CỦA MAIN Ở ĐÂY NHA */
+        /* PHẦN FOOTER CHỐT LẠI */
         .dev-footer { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(0, 0, 0, 0.08); text-align: center; }
         .dev-footer p { font-size: 14px; color: #555; margin: 0 0 12px 0; font-weight: 600; }
-        .social-icons { display: flex; justify-content: center; gap: 15px; }
+        .social-icons { display: flex; justify-content: center; gap: 12px; }
         .social-icons a {
-            display: inline-flex; justify-content: center; align-items: center; width: 38px; height: 38px; border-radius: 50%;
+            display: inline-flex; justify-content: center; align-items: center; width: 36px; height: 36px; border-radius: 50%;
             background: rgba(0, 0, 0, 0.05); color: #555; text-decoration: none; transition: all 0.3s; font-size: 18px;
         }
         .social-icons a:hover { transform: translateY(-3px); background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -84,19 +90,19 @@
         
         <form id="form">
             <div class="form-group">
-                <label>Tên của BẠN :</label>
+                <label>Tên của bạn (Chủ tiệc):</label>
                 <div class="input-group">
-                    <input type="text" id="name" placeholder="VD: NGUYEN BA TUAN" required>
+                    <input type="text" id="name" placeholder="VD: Nguyễn Bá Tuấn" required>
                     <i class="fa-solid fa-user"></i>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>Theme màu sắc:</label>
+                <label>Chọn Mẫu Thiệp:</label>
                 <div class="input-group">
                     <select id="color">
-                        <option value="pink">🌸 Mẫu Hồng </option>
-                        <option value="blue">🎓 Mẫu Xanh </option>
+                        <option value="pink">🌸 Mẫu Hồng ()</option>
+                        <option value="blue">🎓 Mẫu Xanh ()</option>
                     </select>
                 </div>
             </div>
@@ -121,13 +127,13 @@
             <div class="form-group">
                 <label>Địa điểm & Lớp:</label>
                 <div class="input-group">
-                    <input type="text" id="location" placeholder="VD: THPT TIÊN DU SỐ 1" required>
+                    <input type="text" id="location" placeholder="VD: THPT Tiên Du số 1" required>
                     <i class="fa-solid fa-location-dot"></i>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>Lời nhắn gửi lớp (Không bắt buộc):</label>
+                <label>Lời nhắn gửi :</label>
                 <textarea id="quote" rows="2" placeholder="Ví dụ: Cùng nhau tạo nên những kỷ niệm đẹp nhất nhé!"></textarea>
             </div>
 
