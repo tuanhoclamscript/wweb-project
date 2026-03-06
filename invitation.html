@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thư mời Kỷ Yếu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
     <style>
         body { margin: 0; padding: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; background-color: #222; }
 
@@ -13,79 +12,85 @@
             width: 100%; max-width: 450px; aspect-ratio: 9 / 19.5; 
             background-size: cover; background-position: center;
             background-repeat: no-repeat; position: relative; 
-            display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: none; /* Ẩn đến khi load dữ liệu */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             overflow: hidden; background-color: white;
             animation: fadeIn 0.8s ease-out forwards;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* CÁC BLOCK ĐỊNH VỊ CHỮ */
+        /* CÁC BLOCK CHỨA CHỮ ĐỂ CĂN TỌA ĐỘ */
         .title-block { position: absolute; width: 100%; text-align: center; }
         .name-block { position: absolute; width: 100%; text-align: center; }
         .details-block { position: absolute; width: 100%; text-align: center; }
         .quote-block { position: absolute; width: 84%; left: 8%; text-align: center; }
 
+        /* TYPOGRAPHY CĂN BẢN */
+        .title { font-family: 'Great Vibes', cursive; font-size: 60px; margin: 0; line-height: 1.1; }
+        .name { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; text-transform: uppercase; margin: 0; letter-spacing: 2px; }
+        .quote { font-family: 'Playfair Display', serif; font-size: 14px; line-height: 1.6; white-space: pre-line; margin-top: 40px; padding: 0 15px;}
+
         /* =========================================
-           THEME 1: MẪU HỒNG (CHỮ ĐEN TUYỀN, NÉT CĂNG)
+           THEME 1: MẪU HỒNG (ĐÃ SỬA CHỮ ĐEN, NET)
            ========================================= */
-        .theme-pink { background-image: url('bg-pink.png'); }
-        
+        .theme-pink { background-image: url('bg-pink.png'); color: #1a1a1a; }
         .theme-pink .title-block { top: 27%; }
-        .theme-pink .title-text { font-family: 'Great Vibes', cursive; font-size: 65px; color: #000000; line-height: 1; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
-        
-        .theme-pink .name-block { top: 40%; }
-        .theme-pink .name-text { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 700; font-style: italic; color: #000000; letter-spacing: 1px; text-shadow: 1px 1px 3px rgba(255,255,255,0.9); }
+        .theme-pink .title { color: #000; }
+        .theme-pink .name-block { top: 39.5%; }
+        .theme-pink .name { color: #000; }
         
         .theme-pink .details-block { top: 48%; }
-        .theme-pink .time-row { font-family: 'Quicksand', sans-serif; font-size: 20px; font-weight: 700; color: #000000; margin-bottom: 8px; }
-        .theme-pink .date-row { font-family: 'Quicksand', sans-serif; font-size: 18px; font-weight: 700; color: #111111; margin-bottom: 15px; }
-        .theme-pink .location-row { font-family: 'Quicksand', sans-serif; font-size: 17px; font-weight: 700; color: #000000; padding: 0 20px; line-height: 1.4; }
-        
-        .theme-pink .quote-block { top: 68%; }
-        .theme-pink .quote-text { font-family: 'Quicksand', sans-serif; font-size: 15px; font-weight: 700; font-style: italic; color: #000000; line-height: 1.6; white-space: pre-line; }
+        /* Font uốn lượn cho "Thời gian", font Lora cho ngày giờ và địa điểm/lớp */
+        .theme-pink .time-row { font-family: 'Great Vibes', cursive; font-size: 40px; color: #000; display: inline-block; margin-right: 5px;}
+        .theme-pink .time-value { font-family: 'Lora', serif; font-size: 19px; font-weight: 600;}
+        .theme-pink .date-value { font-family: 'Lora', serif; font-size: 16px; margin-top: 5px; color: #1a1a1a;}
+        .theme-pink .location-value { font-family: 'Lora', serif; font-size: 16px; font-weight: 600; padding: 0 15px; }
+
+        .theme-pink .decor-icon { font-size: 20px; color: #333; margin: 20px 0; letter-spacing: 5px; }
+        .theme-pink .quote-text { color: #000; font-weight: 600; font-style: italic; }
 
         /* =========================================
-           THEME 2: MẪU XANH (GIỮ NGUYÊN VÌ ĐANG SANG)
+           THEME 2: MẪU XANH (ĐÃ SỬA CĂN CHỈNH MILIMET)
            ========================================= */
-        .theme-blue { background-image: url('bg-blue.png'); }
+        .theme-blue { background-image: url('bg-blue.png'); color: #455a64; }
+        .theme-blue .title-block { top: 10%; left: 5%; width: 90%; text-align: left; }
+        .theme-blue .title { color: #548ba3; font-weight: normal; }
+        .theme-blue .title span { display: block; padding-left: 20%; }
         
-        .theme-blue .title-block { top: 8%; left: 5%; width: 90%; text-align: left; }
-        .theme-blue .title-text { font-family: 'Great Vibes', cursive; font-size: 68px; color: #1565c0; line-height: 1.1; }
-        .theme-blue .title-text span { display: block; padding-left: 15%; }
+        .theme-blue .name-block { top: 34%; }
+        .theme-blue .name { color: #0d47a1; font-style: italic; }
         
-        .theme-blue .name-block { top: 32%; }
-        .theme-blue .name-text { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; font-style: italic; color: #0d47a1; letter-spacing: 2px; }
+        .theme-blue .details-block { top: 41%; color: #548ba3; }
+        .theme-blue .date-value { font-family: 'Lora', serif; font-size: 18px; margin-bottom: 12px; }
+        /* Layout Thụt vào so với ghim để khớp ảnh */
+        .theme-blue .location-box { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; padding-left: 28px; line-height: 1.4; text-align: center;}
         
-        .theme-blue .details-block { top: 41%; }
-        .theme-blue .date-row { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: #1565c0; margin-bottom: 12px; }
-        .theme-blue .time-row { font-family: 'Quicksand', sans-serif; font-size: 17px; font-weight: 700; color: #1565c0; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px;}
-        .theme-blue .location-row { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: #0d47a1; padding-left: 30px; line-height: 1.4; white-space: pre-line;}
-        
-        .theme-blue .quote-block { top: 64%; }
-        .theme-blue .quote-text { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: #1565c0; font-style: italic; line-height: 1.6; white-space: pre-line; }
+        .theme-blue .quote-text { color: #548ba3; font-weight: 600; font-style: italic; margin-top: 60px; }
 
-        #error-msg { text-align: center; color: #e53e3e; font-family: 'Quicksand', sans-serif; font-weight: bold; display: none; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        #error-msg { text-align: center; color: #e53e3e; font-family: sans-serif; display: none; padding: 20px; font-weight: bold; background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
-    <h2 id="error-msg"><i class="fa-solid fa-triangle-exclamation" style="font-size: 30px; margin-bottom: 10px;"></i><br>Không tìm thấy dữ liệu thiệp.<br>Vui lòng thử tạo lại link!</h2>
+    <h2 id="error-msg">Không tìm thấy dữ liệu thiệp.<br>Vui lòng thử tạo lại link!</h2>
 
     <div class="card-container" id="card">
         <div class="title-block">
-            <div class="title-text" id="display-title"></div>
+            <div class="title" id="display-title">Thư mời kỷ yếu</div>
         </div>
         
         <div class="name-block">
-            <div class="name-text" id="display-name"></div>
+            <div class="name" id="display-name">TÊN CHỦ TIỆC</div>
         </div>
         
         <div class="details-block">
-            <div id="display-details"></div>
+            <div id="details-content"></div>
         </div>
         
+        <div class="decor-pink" id="pink-decor" style="display: none; font-size: 20px; color: #555; margin: 20px 0; letter-spacing: 5px;">ෆ . ᡣ𐭩 | * ✧ . Ⰶ</div>
+
         <div class="quote-block">
-            <div class="quote-text" id="display-quote"></div>
+            <div class="quote-text quote" id="display-quote">...</div>
         </div>
     </div>
 
@@ -100,36 +105,42 @@
 
     if (name) {
         const card = document.getElementById('card');
-        card.style.display = 'block';
+        card.style.display = 'flex';
         
         document.title = "Thư mời Kỷ Yếu - " + name;
         document.getElementById('display-name').textContent = name;
         document.getElementById('display-quote').textContent = quote;
 
-        const detailsBox = document.getElementById('display-details');
+        const detailsContainer = document.getElementById('details-content');
 
+        // KIỂM TRA MÀU ĐỂ RÁP CẤU TRÚC HTML VÀ FONT KHỚP ẢNH GỐC
         if (color === 'pink') {
             card.classList.add('theme-pink');
             document.getElementById('display-title').innerHTML = "Thư mời kỷ yếu";
             
-            // Đổ cấu trúc HTML cho mẫu hồng
-            detailsBox.innerHTML = `
-                <div class="time-row">Thời gian : ${time}</div>
-                <div class="date-row">${date}</div>
-                <div class="location-row">Địa Điểm : ${locationInfo}</div>
+            // Layout chi tiết (Giờ -> Ngày -> Địa điểm)
+            detailsContainer.innerHTML = `
+                <div class="time-row">
+                    <span>Thời gian:</span>
+                    <span class="time-value">${time}</span>
+                </div>
+                <div class="date-value">${date}</div>
+                <div class="location-value">Địa Điểm : ${locationInfo}</div>
             `;
+            document.getElementById('pink-decor').style.display = 'block';
             
         } else {
             card.classList.add('theme-blue');
-            document.getElementById('display-title').innerHTML = "Thư mời <span>kỉ yếu</span>";
+            document.getElementById('display-title').innerHTML = "Thư mời<br>kỉ yếu"; // Xuống dòng cho đẹp
             
+            // Xử lý ngắt dòng chữ "Lớp" cho đẹp
             let formattedLocation = locationInfo.replace(' - Lớp', '<br>Lớp').replace('- Lớp', '<br>Lớp');
             
-            // Đổ cấu trúc HTML cho mẫu xanh
-            detailsBox.innerHTML = `
-                <div class="date-row">${date}</div>
-                <div class="time-row">THỜI GIAN: ${time}</div>
-                <div class="location-row">Địa điểm : ${formattedLocation}</div>
+            // Layout chi tiết cho mẫu xanh (Ngày -> Giờ -> Địa điểm/Lớp)
+            detailsContainer.innerHTML = `
+                <div class="date-value">${date}</div>
+                <div style="font-family: 'Lora', serif; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;">THỜI GIAN: ${time}</div>
+                <div class="location-box">📍 Địa điểm : ${formattedLocation}</div>
             `;
         }
     } else {
