@@ -4,205 +4,423 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tạo Thư Mời Kỷ Yếu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #667eea; --secondary: #764ba2; }
-        body { 
-            font-family: 'Quicksand', sans-serif; margin: 0; padding: 20px; 
-            min-height: 100vh; display: flex; justify-content: center; align-items: center;
-            /* Background chuyển màu động */
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+        :root {
+            --pink: #f48fb1;
+            --pink-light: #fce4ec;
+            --blue: #81d4fa;
+            --blue-light: #e3f2fd;
+            --purple: #ce93d8;
+            --gold: #ffe082;
+            --text: #3d2c3e;
+            --card-bg: rgba(255,255,255,0.82);
         }
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            padding: 30px 16px;
+            overflow-x: hidden;
+            transition: background-image 0.6s ease;
         }
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            width: 100%; max-width: 450px; padding: 35px 30px; 
-            border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.18); box-sizing: border-box;
+
+        /* ===================== BACKGROUND LAYER ===================== */
+        #bg-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            background-repeat: no-repeat;
+            z-index: 0;
+            transition: opacity 0.5s ease;
         }
-        .header-box { text-align: center; margin-bottom: 25px; }
-        .header-box h2 { margin: 0; color: #333; font-size: 26px; font-weight: 700; }
-        .header-box p { color: #666; font-size: 14px; margin-top: 5px; }
-        .form-group { margin-bottom: 18px; }
-        label { font-weight: 600; display: block; margin-bottom: 8px; color: #444; font-size: 14px; }
-        .input-group { position: relative; }
-        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888; transition: 0.3s; }
-        input, select, textarea { 
-            width: 100%; padding: 12px 12px 12px 40px; 
-            border: 2px solid #e1e5ee; border-radius: 10px; box-sizing: border-box; 
-            font-size: 14px; font-family: 'Quicksand', sans-serif;
-            background: rgba(255,255,255,0.8); transition: all 0.3s ease;
+        /* Overlay mờ để chữ dễ đọc hơn */
+        #bg-layer::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: rgba(255,255,255,0.22);
         }
-        textarea { padding: 12px; resize: vertical; } 
-        input:focus, select:focus, textarea:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
-        input:focus + i, select:focus + i { color: var(--primary); }
-        .flex-row { display: flex; gap: 15px; }
-        .flex-row .form-group { flex: 1; }
-        button { 
-            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white; border: none; border-radius: 10px; margin-top: 10px; 
-            font-size: 16px; font-weight: 700; font-family: 'Quicksand', sans-serif;
-            cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+        /* Theme pink */
+        #bg-layer.theme-pink { background-image: url('bg-pink.png'); }
+        /* Theme blue */
+        #bg-layer.theme-blue { background-image: url('bg-blue.png'); }
+
+        /* ===================== GLASS CARD ===================== */
+        .glass-panel {
+            position: relative; z-index: 2;
+            background: var(--card-bg);
+            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+            width: 100%; max-width: 460px;
+            padding: 38px 32px 28px;
+            border-radius: 28px;
+            box-shadow:
+                0 8px 32px rgba(244,143,177,0.18),
+                0 2px 8px rgba(129,212,250,0.15),
+                inset 0 1px 0 rgba(255,255,255,0.9);
+            border: 1.5px solid rgba(255,255,255,0.7);
+            animation: cardIn 0.7s cubic-bezier(0.22,1,0.36,1) both;
         }
-        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.6); }
-        button:disabled { background: #a0aec0; cursor: not-allowed; transform: none; box-shadow: none;}
-        #result { 
-            display: none; margin-top: 25px; padding: 20px; 
-            background: linear-gradient(to right, #f6f8fd, #f1f6fe); 
-            border-radius: 12px; text-align: center; border: 1px dashed #b5c4f3; animation: fadeIn 0.5s ease;
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        #result p { margin-top: 0; font-weight: 600; color: #4a5568; font-size: 15px;}
-        #result a { 
-            color: #e53e3e; font-weight: 700; text-decoration: none; font-size: 18px; 
-            display: inline-block; padding: 10px 20px; background: white; 
-            border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.3s; word-break: break-all;
+
+        /* Dải màu cầu vồng pastel trên cùng */
+        .card-rainbow {
+            position: absolute; top: 0; left: 0; right: 0; height: 5px;
+            border-radius: 28px 28px 0 0;
+            background: linear-gradient(90deg, #f48fb1, #ce93d8, #81d4fa, #80cbc4, #ffe082, #f48fb1);
+            background-size: 200% 100%;
+            animation: rainbowMove 4s linear infinite;
         }
-        #result a:hover { color: #c53030; transform: scale(1.05); }
-        
-        /* PHẦN FOOTER CHỐT LẠI */
-        .dev-footer { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(0, 0, 0, 0.08); text-align: center; }
-        .dev-footer p { font-size: 14px; color: #555; margin: 0 0 12px 0; font-weight: 600; }
-        .social-icons { display: flex; justify-content: center; gap: 12px; }
+        @keyframes rainbowMove {
+            0%   { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        /* ===================== HEADER ===================== */
+        .header-box { text-align: center; margin-bottom: 28px; }
+        .header-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 46px; color: #d81b60;
+            line-height: 1.1;
+            text-shadow: 0 2px 12px rgba(216,27,96,0.15);
+        }
+        .header-sub {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 12px; font-weight: 600; letter-spacing: 2.5px;
+            text-transform: uppercase; color: #9e7aad; margin-top: 2px;
+        }
+        .header-desc { color: #7b6b7d; font-size: 13.5px; margin-top: 8px; font-weight: 500; }
+
+        /* Divider trang trí */
+        .divider {
+            display: flex; align-items: center; gap: 10px;
+            margin: 0 0 22px;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(to right, transparent, #f0c0d0);
+        }
+        .divider::after { background: linear-gradient(to left, transparent, #c0d8f0); }
+        .divider span { font-size: 16px; }
+
+        /* ===================== FORM ===================== */
+        .form-group { margin-bottom: 16px; }
+        label {
+            font-weight: 700; display: block; margin-bottom: 7px;
+            color: var(--text); font-size: 13px; letter-spacing: 0.3px;
+        }
+        label i { margin-right: 6px; width: 16px; text-align: center; }
+        label .lbl-pink { color: #e91e8c; }
+        label .lbl-blue { color: #1976d2; }
+
+        .input-wrap {
+            position: relative;
+        }
+        .input-icon {
+            position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+            color: #c0a8cc; font-size: 14px; pointer-events: none;
+            transition: color 0.25s;
+        }
+        textarea ~ .input-icon { top: 14px; transform: none; }
+
+        input, select, textarea {
+            width: 100%; padding: 11px 12px 11px 38px;
+            border: 2px solid #e8d5ef;
+            border-radius: 12px;
+            font-size: 14px; font-family: 'Quicksand', sans-serif; font-weight: 500;
+            background: rgba(255,255,255,0.75);
+            color: var(--text);
+            transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+            outline: none;
+        }
+        textarea { padding: 11px 12px; resize: vertical; min-height: 70px; }
+        input:focus, select:focus, textarea:focus {
+            border-color: #f48fb1;
+            background: #fff;
+            box-shadow: 0 0 0 3.5px rgba(244,143,177,0.18);
+        }
+        input:focus ~ .input-icon,
+        select:focus ~ .input-icon { color: #e91e8c; }
+
+        /* Select custom arrow */
+        select { appearance: none; cursor: pointer; }
+
+        .flex-row { display: flex; gap: 12px; }
+        .flex-row .form-group { flex: 1; min-width: 0; }
+
+        /* Template badges */
+        .template-select-wrap { position: relative; }
+        .template-badges {
+            display: flex; gap: 8px; margin-bottom: 8px;
+        }
+        .badge {
+            flex: 1; padding: 9px 6px; border-radius: 10px; border: 2px solid transparent;
+            text-align: center; font-size: 13px; font-weight: 600; cursor: pointer;
+            transition: all 0.22s; background: rgba(255,255,255,0.7);
+        }
+        .badge.pink-badge { border-color: #f8bbd0; color: #c2185b; background: #fce4ec; }
+        .badge.blue-badge { border-color: #b3e5fc; color: #0277bd; background: #e1f5fe; }
+        .badge.active.pink-badge { background: #f48fb1; color: #fff; border-color: #f48fb1; box-shadow: 0 3px 10px rgba(244,143,177,0.4); }
+        .badge.active.blue-badge { background: #29b6f6; color: #fff; border-color: #29b6f6; box-shadow: 0 3px 10px rgba(41,182,246,0.4); }
+
+        /* Hidden select */
+        #color { display: none; }
+
+        /* ===================== BUTTON ===================== */
+        .btn-create {
+            width: 100%; padding: 14px;
+            background: linear-gradient(135deg, #f06292 0%, #ba68c8 50%, #64b5f6 100%);
+            background-size: 200% 100%;
+            color: white; border: none; border-radius: 14px;
+            margin-top: 8px; font-size: 15px; font-weight: 700;
+            font-family: 'Quicksand', sans-serif; cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 18px rgba(240,98,146,0.35);
+            letter-spacing: 0.5px;
+            position: relative; overflow: hidden;
+        }
+        .btn-create::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+        }
+        .btn-create:hover:not(:disabled) {
+            transform: translateY(-2px);
+            background-position: 100% 0;
+            box-shadow: 0 7px 24px rgba(186,104,200,0.45);
+        }
+        .btn-create:active:not(:disabled) { transform: translateY(0); }
+        .btn-create:disabled { background: #c0b8c8; cursor: not-allowed; box-shadow: none; }
+
+        /* ===================== RESULT BOX ===================== */
+        #result {
+            display: none; margin-top: 20px; padding: 18px;
+            background: linear-gradient(135deg, #fce4ec, #e3f2fd);
+            border-radius: 14px; text-align: center;
+            border: 1.5px dashed #f48fb1;
+            animation: fadeIn 0.45s ease;
+        }
+        @keyframes fadeIn { from { opacity:0; transform: translateY(-8px); } to { opacity:1; transform: translateY(0); } }
+        #result p { font-weight: 700; color: #6a1b9a; font-size: 14px; margin-bottom: 10px; }
+        #result a {
+            color: #c2185b; font-weight: 700; text-decoration: none;
+            font-size: 14px; display: inline-block; padding: 9px 16px;
+            background: white; border-radius: 9px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            transition: 0.25s; word-break: break-all; max-width: 100%;
+        }
+        #result a:hover { color: #880e4f; box-shadow: 0 4px 14px rgba(194,24,91,0.2); }
+        .copy-btn {
+            margin-top: 10px; padding: 8px 18px;
+            background: #e91e8c; color: white; border: none; border-radius: 8px;
+            font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 13px;
+            cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .copy-btn:hover { background: #c2185b; }
+        .copy-btn.copied { background: #43a047; }
+
+        /* ===================== FOOTER ===================== */
+        .dev-footer {
+            margin-top: 22px; padding-top: 18px;
+            border-top: 1px solid rgba(206,147,216,0.2);
+            text-align: center;
+        }
+        .dev-footer p { font-size: 13px; color: #9e7aad; margin: 0 0 11px; font-weight: 600; }
+        .social-icons { display: flex; justify-content: center; gap: 10px; }
         .social-icons a {
-            display: inline-flex; justify-content: center; align-items: center; width: 36px; height: 36px; border-radius: 50%;
-            background: rgba(0, 0, 0, 0.05); color: #555; text-decoration: none; transition: all 0.3s; font-size: 18px;
+            display: inline-flex; justify-content: center; align-items: center;
+            width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(244,143,177,0.1); color: #b48fc0;
+            text-decoration: none; transition: all 0.25s; font-size: 16px;
+            border: 1.5px solid rgba(244,143,177,0.2);
         }
-        .social-icons a:hover { transform: translateY(-3px); background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .social-icons a.fb:hover { color: #1877F2; }
-        .social-icons a.tt:hover { color: #000000; }
-        .social-icons a.ig:hover { color: #E4405F; }
+        .social-icons a:hover { transform: translateY(-3px); background: white; box-shadow: 0 4px 12px rgba(244,143,177,0.3); }
+        .social-icons a.fb:hover { color: #1877F2; border-color: #1877F2; }
+        .social-icons a.tt:hover { color: #000; border-color: #000; }
+        .social-icons a.ig:hover { color: #E4405F; border-color: #E4405F; }
+
+        /* Mobile tweak */
+        @media (max-width: 400px) {
+            .glass-panel { padding: 30px 18px 22px; }
+            .header-title { font-size: 38px; }
+            .flex-row { flex-direction: column; gap: 0; }
+        }
     </style>
 </head>
 <body>
-    <div class="glass-panel">
-        <div class="header-box">
-            <h2>✨ BTUAN DEV ✨</h2>
-            <p>Nhập thông tin của bạn để tạo link thiệp</p>
-        </div>
-        
-        <form id="form">
-            <div class="form-group">
-                <label>Tên của bạn (Chủ tiệc):</label>
-                <div class="input-group">
-                    <input type="text" id="name" placeholder="VD: Nguyễn Bá Tuấn" required>
-                    <i class="fa-solid fa-user"></i>
-                </div>
-            </div>
 
-            <div class="form-group">
-                <label>Chọn Mẫu Thiệp:</label>
-                <div class="input-group">
-                    <select id="color">
-                        <option value="pink">🌸 Mẫu Hồng ()</option>
-                        <option value="blue">🎓 Mẫu Xanh ()</option>
-                    </select>
-                </div>
-            </div>
+<!-- Background image layer -->
+<div id="bg-layer" class="theme-pink"></div>
 
-            <div class="flex-row">
-                <div class="form-group">
-                    <label>Ngày chụp:</label>
-                    <div class="input-group">
-                        <input type="text" id="date" placeholder="VD: Chủ nhật, 08/06/2025" required>
-                        <i class="fa-regular fa-calendar"></i>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Giờ có mặt:</label>
-                    <div class="input-group">
-                        <input type="text" id="time" placeholder="VD: 8h00 sáng" required>
-                        <i class="fa-regular fa-clock"></i>
-                    </div>
-                </div>
-            </div>
+<div class="glass-panel">
+    <div class="card-rainbow"></div>
 
-            <div class="form-group">
-                <label>Địa điểm & Lớp:</label>
-                <div class="input-group">
-                    <input type="text" id="location" placeholder="VD: THPT Tiên Du số 1" required>
-                    <i class="fa-solid fa-location-dot"></i>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Lời nhắn gửi :</label>
-                <textarea id="quote" rows="2" placeholder="Ví dụ: Cùng nhau tạo nên những kỷ niệm đẹp nhất nhé!"></textarea>
-            </div>
-
-            <button type="submit" id="submitBtn"><i class="fa-solid fa-wand-magic-sparkles"></i> Tạo Link Chia Sẻ Ngay</button>
-        </form>
-
-        <div id="result">
-            <p id="statusText">⏳ Đang xử lý phép thuật...</p>
-            <a href="#" id="link" target="_blank"></a>
-        </div>
-
-        <div class="dev-footer">
-            <p>Code with <i class="fa-solid fa-heart" style="color: #e53e3e;"></i> by <strong>Tên Của Bạn</strong></p>
-            <div class="social-icons">
-                <a href="#LINK_FB" target="_blank" class="fb" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#LINK_TIKTOK" target="_blank" class="tt" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                <a href="#LINK_IG" target="_blank" class="ig" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            </div>
-        </div>
+    <div class="header-box">
+        <div class="header-title">BTUAN DEV ✨</div>
+        <div class="header-sub">✦ Thiệp Kỷ Yếu Số ✦</div>
+        <div class="header-desc">Điền thông tin để tạo thiệp mời riêng của bạn 🎓</div>
     </div>
 
-    <script>
-        document.getElementById('form').onsubmit = function(e) {
-            e.preventDefault();
-            const submitBtn = document.getElementById('submitBtn');
-            const resultBox = document.getElementById('result');
-            const statusText = document.getElementById('statusText');
-            const linkTag = document.getElementById('link');
-            
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tạo link...';
-            resultBox.style.display = 'block';
-            statusText.innerHTML = "⏳ Hệ thống đang rút gọn link...<br><small style='color:#718096; font-weight:normal;'>Sẽ mất khoảng 2-3 giây</small>";
-            linkTag.style.display = 'none';
+    <div class="divider"><span>🌸</span></div>
 
-            const selectedColor = document.getElementById('color').value;
-            let customQuote = document.getElementById('quote').value.trim();
-            if (customQuote === "") {
-                customQuote = selectedColor === 'pink' 
-                    ? 'Đây là ngày mà tớ muốn lưu lại những khoảnh khắc đẹp đẽ nhất của thời học sinh.\nHy vọng những bức ảnh thanh xuân tươi đẹp của tớ sẽ có sự tham gia của cậu.\n"Sự có mặt của cậu chính là niềm hạnh phúc của tớ !" 💖'
-                    : '"Hy vọng cậu sẽ là một phần trong bức ảnh thanh xuân tươi đẹp của mình"';
-            }
+    <form id="form" onsubmit="return false;">
 
-            let baseUrl = window.location.href.split('index.html')[0];
-            if (!baseUrl.endsWith('/')) baseUrl += '/';
-            const params = new URLSearchParams({
-                name: document.getElementById('name').value, color: selectedColor, date: document.getElementById('date').value,
-                time: document.getElementById('time').value, location: document.getElementById('location').value, quote: customQuote
-            });
-            const longUrl = baseUrl + 'invitation.html?' + params.toString();
+        <div class="form-group">
+            <label><i class="fa-solid fa-user lbl-pink"></i> Tên của bạn (Chủ tiệc)</label>
+            <div class="input-wrap">
+                <input type="text" id="name" placeholder="VD: Nguyễn Bá Tuấn" required>
+                <span class="input-icon"><i class="fa-solid fa-user"></i></span>
+            </div>
+        </div>
 
-            const script = document.createElement('script');
-            script.src = `https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}&callback=handleShortenResponse`;
-            document.body.appendChild(script);
+        <div class="form-group">
+            <label><i class="fa-solid fa-palette lbl-blue"></i> Chọn Mẫu Thiệp</label>
+            <div class="template-badges">
+                <div class="badge pink-badge active" onclick="selectTheme('pink', this)">🌸 Mẫu Hồng</div>
+                <div class="badge blue-badge"        onclick="selectTheme('blue', this)">🎓 Mẫu Xanh</div>
+            </div>
+            <select id="color"><option value="pink">pink</option><option value="blue">blue</option></select>
+        </div>
 
-            const timeout = setTimeout(() => { showResult(longUrl, "⚠️ Mạng hơi chậm, dùng tạm link gốc nhé:"); }, 6000);
+        <div class="flex-row">
+            <div class="form-group">
+                <label><i class="fa-regular fa-calendar lbl-pink"></i> Ngày chụp</label>
+                <div class="input-wrap">
+                    <input type="text" id="date" placeholder="VD: CN, 08/06/2025" required>
+                    <span class="input-icon"><i class="fa-regular fa-calendar"></i></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label><i class="fa-regular fa-clock lbl-blue"></i> Giờ có mặt</label>
+                <div class="input-wrap">
+                    <input type="text" id="time" placeholder="VD: 8h00 sáng" required>
+                    <span class="input-icon"><i class="fa-regular fa-clock"></i></span>
+                </div>
+            </div>
+        </div>
 
-            window.handleShortenResponse = function(data) {
-                clearTimeout(timeout);
-                if (data.shorturl) { showResult(data.shorturl, "🎉 Thành công! Copy link này gửi vào group lớp ngay:"); } 
-                else { showResult(longUrl, "⚠️ Lỗi rút gọn link, dùng tạm link gốc nhé:"); }
-            };
+        <div class="form-group">
+            <label><i class="fa-solid fa-location-dot lbl-pink"></i> Địa điểm &amp; Lớp</label>
+            <div class="input-wrap">
+                <input type="text" id="location" placeholder="VD: THPT Tiên Du số 1 - Lớp 12A1" required>
+                <span class="input-icon"><i class="fa-solid fa-location-dot"></i></span>
+            </div>
+        </div>
 
-            function showResult(finalUrl, message) {
-                statusText.innerHTML = message; linkTag.href = finalUrl; linkTag.textContent = finalUrl;
-                linkTag.style.display = 'inline-block'; submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Tạo Lại Thiệp Khác';
-            }
-        };
-    </script>
+        <div class="form-group">
+            <label><i class="fa-solid fa-quote-left lbl-blue"></i> Lời nhắn gửi</label>
+            <div class="input-wrap">
+                <textarea id="quote" rows="2" placeholder="Cùng nhau tạo những kỷ niệm đẹp nhất!"></textarea>
+            </div>
+        </div>
+
+        <button class="btn-create" id="submitBtn" onclick="handleSubmit()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>&nbsp; Tạo Link Chia Sẻ Ngay
+        </button>
+    </form>
+
+    <div id="result">
+        <p id="statusText">⏳ Đang xử lý phép thuật...</p>
+        <a href="#" id="link" target="_blank" style="display:none;"></a>
+        <br>
+        <button class="copy-btn" id="copyBtn" style="display:none;" onclick="copyLink()">
+            <i class="fa-regular fa-copy"></i> Sao chép link
+        </button>
+    </div>
+
+    <div class="dev-footer">
+        <p>Code with <i class="fa-solid fa-heart" style="color:#e91e8c;"></i> by <strong>BTUAN DEV</strong></p>
+        <div class="social-icons">
+            <a href="#" target="_blank" class="fb" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" target="_blank" class="tt" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" target="_blank" class="ig" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+    </div>
+</div>
+
+<script>
+/* =================== THEME TOGGLE =================== */
+function selectTheme(val, el) {
+    document.getElementById('color').value = val;
+    document.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    // Đổi background theo theme
+    const bg = document.getElementById('bg-layer');
+    bg.classList.remove('theme-pink', 'theme-blue');
+    bg.classList.add('theme-' + val);
+}
+
+/* =================== SUBMIT =================== */
+function handleSubmit() {
+    const name = document.getElementById('name').value.trim();
+    const date = document.getElementById('date').value.trim();
+    const time = document.getElementById('time').value.trim();
+    const location = document.getElementById('location').value.trim();
+    if (!name || !date || !time || !location) { alert('Vui lòng điền đầy đủ thông tin!'); return; }
+
+    const submitBtn = document.getElementById('submitBtn');
+    const resultBox = document.getElementById('result');
+    const statusText = document.getElementById('statusText');
+    const linkTag = document.getElementById('link');
+    const copyBtn = document.getElementById('copyBtn');
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tạo link...';
+    resultBox.style.display = 'block';
+    statusText.innerHTML = "⏳ Hệ thống đang rút gọn link...<br><small style='color:#9e7aad;font-weight:500;'>Sẽ mất khoảng 2–3 giây</small>";
+    linkTag.style.display = 'none';
+    copyBtn.style.display = 'none';
+
+    const selectedColor = document.getElementById('color').value;
+    let customQuote = document.getElementById('quote').value.trim();
+    if (!customQuote) {
+        customQuote = selectedColor === 'pink'
+            ? 'Đây là ngày mà tớ muốn lưu lại những khoảnh khắc đẹp đẽ nhất của thời học sinh.\nHy vọng những bức ảnh thanh xuân tươi đẹp của tớ sẽ có sự tham gia của cậu.\n"Sự có mặt của cậu chính là niềm hạnh phúc của tớ !" 💖'
+            : '"Hy vọng cậu sẽ là một phần trong bức ảnh thanh xuân tươi đẹp của mình"';
+    }
+
+    let baseUrl = window.location.href.split('index.html')[0];
+    if (!baseUrl.endsWith('/')) baseUrl += '/';
+    const params = new URLSearchParams({ name, color: selectedColor, date, time, location, quote: customQuote });
+    const longUrl = baseUrl + 'invitation.html?' + params.toString();
+
+    const script = document.createElement('script');
+    script.src = `https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}&callback=handleShortenResponse`;
+    document.body.appendChild(script);
+
+    const timeout = setTimeout(() => showResult(longUrl, "⚠️ Mạng hơi chậm, dùng tạm link gốc nhé:"), 6000);
+
+    window.handleShortenResponse = function(data) {
+        clearTimeout(timeout);
+        showResult(data.shorturl || longUrl, data.shorturl ? "🎉 Thành công! Copy link gửi vào group lớp nhé:" : "⚠️ Lỗi rút gọn, dùng tạm link gốc:");
+    };
+
+    function showResult(finalUrl, message) {
+        statusText.innerHTML = message;
+        linkTag.href = finalUrl; linkTag.textContent = finalUrl;
+        linkTag.style.display = 'inline-block';
+        copyBtn.style.display = 'inline-flex';
+        copyBtn._url = finalUrl;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Tạo Lại Thiệp Khác';
+    }
+}
+
+/* =================== COPY =================== */
+function copyLink() {
+    const btn = document.getElementById('copyBtn');
+    const url = btn._url || document.getElementById('link').href;
+    navigator.clipboard.writeText(url).then(() => {
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã sao chép!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-copy"></i> Sao chép link'; btn.classList.remove('copied'); }, 2500);
+    });
+}
+
+</script>
 </body>
 </html>
