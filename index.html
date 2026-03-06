@@ -64,31 +64,20 @@
             border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.3s; word-break: break-all;
         }
         #result a:hover { color: #c53030; transform: scale(1.05); }
-        .dev-footer { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(0, 0, 0, 0.08); text-align: center; }
-        .dev-footer p { font-size: 13px; color: #555; margin: 0 0 12px 0; font-weight: 600; }
-        .social-icons { display: flex; justify-content: center; gap: 12px; }
-        .social-icons a {
-            display: inline-flex; justify-content: center; align-items: center; width: 36px; height: 36px; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6); color: #555; text-decoration: none; transition: all 0.3s; font-size: 16px;
-        }
-        .social-icons a:hover { transform: translateY(-3px); background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .social-icons a.fb:hover { color: #1877F2; }
-        .social-icons a.tt:hover { color: #000000; }
-        .social-icons a.ig:hover { color: #E4405F; }
     </style>
 </head>
 <body>
     <div class="glass-panel">
         <div class="header-box">
-            <h2>✨ Tạo Thư Mời Kỷ Yếu ✨</h2>
-            <p>Tự nhập thông tin để tạo link thiệp riêng</p>
+            <h2>✨ BTUAN DEV  ✨</h2>
+            <p>Nhập thông tin của bạn để tạo link thiệp</p>
         </div>
         
         <form id="form">
             <div class="form-group">
-                <label>Tên của bạn (Chủ tiệc):</label>
+                <label>Tên của Bạn :</label>
                 <div class="input-group">
-                    <input type="text" id="name" placeholder="VD: HOÀNG THỊ THU TRANG" required>
+                    <input type="text" id="name" placeholder="VD: Nguyen Ba Tuan" required>
                     <i class="fa-solid fa-user"></i>
                 </div>
             </div>
@@ -105,7 +94,7 @@
 
             <div class="flex-row">
                 <div class="form-group">
-                    <label>Ngày chụp (Gõ tự do):</label>
+                    <label>Ngày chụp:</label>
                     <div class="input-group">
                         <input type="text" id="date" placeholder="VD: Chủ nhật, 08/06/2025" required>
                         <i class="fa-regular fa-calendar"></i>
@@ -121,9 +110,9 @@
             </div>
 
             <div class="form-group">
-                <label>Địa điểm & Lớp (Gõ tự do):</label>
+                <label>Địa điểm & Lớp:</label>
                 <div class="input-group">
-                    <input type="text" id="location" placeholder="VD: THPT Tien Du 1" required>
+                    <input type="text" id="location" placeholder="VD: THPT Tien Du so 1" required>
                     <i class="fa-solid fa-location-dot"></i>
                 </div>
             </div>
@@ -139,15 +128,6 @@
         <div id="result">
             <p id="statusText">⏳ Đang xử lý phép thuật...</p>
             <a href="#" id="link" target="_blank"></a>
-        </div>
-
-        <div class="dev-footer">
-            <p>Code with <i class="fa-solid fa-heart" style="color: #e53e3e;"></i> by <strong>Tên Của Bạn</strong></p>
-            <div class="social-icons">
-                <a href="#LINK_FB" target="_blank" class="fb" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#LINK_TIKTOK" target="_blank" class="tt" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                <a href="#LINK_IG" target="_blank" class="ig" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            </div>
         </div>
     </div>
 
