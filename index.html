@@ -14,13 +14,9 @@
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%; animation: gradientBG 15s ease infinite;
         }
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .glass-panel { 
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
             width: 100%; max-width: 450px; padding: 35px 30px; 
             border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.18); box-sizing: border-box;
@@ -45,14 +41,14 @@
         .flex-row .form-group { flex: 1; }
         button { 
             width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white; border: none; border-radius: 10px; margin-top: 15px; 
+            color: white; border: none; border-radius: 10px; margin-top: 10px; 
             font-size: 16px; font-weight: 700; font-family: 'Quicksand', sans-serif;
             cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(102,126,234,0.4);
         }
         button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.6); }
         button:disabled { background: #a0aec0; cursor: not-allowed; transform: none; box-shadow: none;}
         #result { 
-            display: none; margin-top: 25px; padding: 20px; 
+            display: none; margin-top: 20px; padding: 20px; 
             background: linear-gradient(to right, #f6f8fd, #f1f6fe); 
             border-radius: 12px; text-align: center; border: 1px dashed #b5c4f3; animation: fadeIn 0.5s ease;
         }
@@ -64,20 +60,33 @@
             border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.3s; word-break: break-all;
         }
         #result a:hover { color: #c53030; transform: scale(1.05); }
+        
+        /* FOOTER CỦA MAIN Ở ĐÂY NHA */
+        .dev-footer { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(0, 0, 0, 0.08); text-align: center; }
+        .dev-footer p { font-size: 14px; color: #555; margin: 0 0 12px 0; font-weight: 600; }
+        .social-icons { display: flex; justify-content: center; gap: 15px; }
+        .social-icons a {
+            display: inline-flex; justify-content: center; align-items: center; width: 38px; height: 38px; border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05); color: #555; text-decoration: none; transition: all 0.3s; font-size: 18px;
+        }
+        .social-icons a:hover { transform: translateY(-3px); background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .social-icons a.fb:hover { color: #1877F2; }
+        .social-icons a.tt:hover { color: #000000; }
+        .social-icons a.ig:hover { color: #E4405F; }
     </style>
 </head>
 <body>
     <div class="glass-panel">
         <div class="header-box">
-            <h2>✨ BTUAN DEV  ✨</h2>
+            <h2>✨ Tạo Thư Mời Kỷ Yếu ✨</h2>
             <p>Nhập thông tin của bạn để tạo link thiệp</p>
         </div>
         
         <form id="form">
             <div class="form-group">
-                <label>Tên của Bạn :</label>
+                <label>Tên của BẠN (Sẽ in giữa thiệp):</label>
                 <div class="input-group">
-                    <input type="text" id="name" placeholder="VD: Nguyen Ba Tuan" required>
+                    <input type="text" id="name" placeholder="VD: HOÀNG THỊ THU TRANG" required>
                     <i class="fa-solid fa-user"></i>
                 </div>
             </div>
@@ -86,8 +95,8 @@
                 <label>Theme màu sắc:</label>
                 <div class="input-group">
                     <select id="color">
-                        <option value="pink">🌸 Mẫu Hồng (Ngọt ngào, mơ mộng)</option>
-                        <option value="blue">🎓 Mẫu Xanh (Tươi sáng, thanh xuân)</option>
+                        <option value="pink">🌸 Mẫu Hồng (Ngọt ngào, thanh lịch)</option>
+                        <option value="blue">🎓 Mẫu Xanh (Tươi sáng, cổ điển)</option>
                     </select>
                 </div>
             </div>
@@ -112,14 +121,14 @@
             <div class="form-group">
                 <label>Địa điểm & Lớp:</label>
                 <div class="input-group">
-                    <input type="text" id="location" placeholder="VD: THPT Tien Du so 1" required>
+                    <input type="text" id="location" placeholder="VD: THPT Định Hóa - Lớp 12A12" required>
                     <i class="fa-solid fa-location-dot"></i>
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Lời nhắn gửi lớp (Không bắt buộc):</label>
-                <textarea id="quote" rows="3" placeholder="Ví dụ: Cùng nhau tạo nên những kỷ niệm đẹp nhất nhé!"></textarea>
+                <textarea id="quote" rows="2" placeholder="Ví dụ: Cùng nhau tạo nên những kỷ niệm đẹp nhất nhé!"></textarea>
             </div>
 
             <button type="submit" id="submitBtn"><i class="fa-solid fa-wand-magic-sparkles"></i> Tạo Link Chia Sẻ Ngay</button>
@@ -128,6 +137,15 @@
         <div id="result">
             <p id="statusText">⏳ Đang xử lý phép thuật...</p>
             <a href="#" id="link" target="_blank"></a>
+        </div>
+
+        <div class="dev-footer">
+            <p>Code with <i class="fa-solid fa-heart" style="color: #e53e3e;"></i> by <strong>Tên Của Bạn</strong></p>
+            <div class="social-icons">
+                <a href="#LINK_FB" target="_blank" class="fb" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#LINK_TIKTOK" target="_blank" class="tt" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#LINK_IG" target="_blank" class="ig" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            </div>
         </div>
     </div>
 
