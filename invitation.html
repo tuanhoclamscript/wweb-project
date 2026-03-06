@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư mời Kỷ Yếu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,700&family=Lora:ital,wght@0,500;0,600;1,600&family=Itim&family=Nunito:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0; padding: 0; min-height: 100vh;
+            display: flex; justify-content: center; align-items: center; 
+            background-color: #222; 
+        }
+
+        /* KHUNG THIỆP */
+        .card-container {
+            width: 100%; max-width: 450px; 
+            aspect-ratio: 9 / 19.5; 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative; 
+            display: none; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            background-color: white;
+        }
+
+        /* CÁC BLOCK ĐỊNH VỊ CHỮ */
+        .title-block { position: absolute; width: 100%; text-align: center; }
+        .name-block { position: absolute; width: 100%; text-align: center; }
+        .details-block { position: absolute; width: 100%; text-align: center; }
+        .quote-block { position: absolute; width: 84%; left: 8%; text-align: center; }
+
+        /* =========================================
+           THEME 1: MẪU HỒNG (Dễ thương, Bo tròn)
+           ========================================= */
+        .theme-pink { background-image: url('bg-pink.png'); }
+        
+        .theme-pink .title-block { top: 27%; }
+        /* Font Cursive uốn lượn */
+        .theme-pink .title-text { font-family: 'Great Vibes', cursive; font-size: 58px; color: #1a1a1a; line-height: 1; }
+        
+        .theme-pink .name-block { top: 40%; }
+        /* Font Itim: Giống y hệt nét chữ viết tay tròn trịa của "HOÀNG THỊ THU TRANG" */
+        .theme-pink .name-text { font-family: 'Itim', cursive; font-size: 26px; color: #1a1a1a; letter-spacing: 1px; }
+        
+        .theme-pink .details-block { top: 47%; color: #333; }
+        .theme-pink .time-row { margin-bottom: 8px; }
+        .theme-pink .time-label { font-family: 'Great Vibes', cursive; font-size: 42px; color: #1a1a1a; margin-right: 5px; }
+        /* Font Nunito: Tròn, hiện đại, không chân cho ngày giờ địa điểm */
+        .theme-pink .time-value { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 20px; }
+        .theme-pink .date-value { font-family: 'Nunito', sans-serif; font-weight: 500; font-size: 16px; margin-bottom: 20px; color: #444; }
+        .theme-pink .location-value { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 600; padding: 0 20px;}
+        
+        .theme-pink .decor-icon { font-size: 16px; color: #555; margin-top: 25px; letter-spacing: 4px; }
+
+        .theme-pink .quote-block { top: 68%; }
+        .theme-pink .quote-text { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600; color: #d64a5c; line-height: 1.6; white-space: pre-line; }
+
+
+        /* =========================================
+           THEME 2: MẪU XANH (Sang trọng, Cổ điển)
+           ========================================= */
+        .theme-blue { background-image: url('bg-blue.png'); }
+        
+        .theme-blue .title-block { top: 8%; left: 5%; width: 90%; text-align: left; }
+        /* Font Cursive */
+        .theme-blue .title-text { font-family: 'Great Vibes', cursive; font-size: 68px; color: #5b829e; line-height: 1.1; }
+        .theme-blue .title-text span { display: block; padding-left: 15%; } 
+        
+        .theme-blue .name-block { top: 32%; }
+        /* Font Playfair Display: Sang trọng, có chân, in nghiêng, đậm nét hệt chữ "TRIỆU QUỐC VIỆT" */
+        .theme-blue .name-text { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; font-style: italic; color: #5b829e; letter-spacing: 2px; text-shadow: 1px 1px 2px rgba(255,255,255,0.5);}
+        
+        .theme-blue .details-block { top: 41%; color: #5b829e; }
+        /* Font Lora: Có chân thanh mảnh cho phần thông tin */
+        .theme-blue .date-value { font-family: 'Lora', serif; font-size: 18px; font-weight: 500; margin-bottom: 12px; }
+        .theme-blue .time-row { margin-bottom: 20px; font-family: 'Lora', serif; text-transform: uppercase; font-size: 16px; font-weight: 500; letter-spacing: 1px;}
+        .theme-blue .location-value { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; padding-left: 30px; line-height: 1.4; white-space: pre-line;} 
+        
+        .theme-blue .quote-block { top: 64%; }
+        .theme-blue .quote-text { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: #5b829e; font-style: italic; line-height: 1.6; white-space: pre-line; }
+
+        #error-msg { text-align: center; color: #ff4444; background: white; padding: 20px; border-radius: 10px; font-family: Arial, sans-serif; display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="error-msg">Không tìm thấy thông tin thiệp.<br>Vui lòng thử tạo lại link!</div>
+
+    <div class="card-container" id="card">
+        
+        <div class="title-block">
+            <div class="title-text" id="display-title">Thư mời kỷ yếu</div>
+        </div>
+        
+        <div class="name-block">
+            <div class="name-text" id="display-name">TÊN KHÁCH MỜI</div>
+        </div>
+        
+        <div class="details-block">
+            <div id="details-content"></div>
+        </div>
+        
+        <div class="quote-block">
+            <div class="quote-text" id="display-quote">...</div>
+        </div>
+
+    </div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name');
+    const color = urlParams.get('color');
+    const date = urlParams.get('date');
+    const time = urlParams.get('time');
+    const locationInfo = urlParams.get('location');
+    const quote = urlParams.get('quote');
+
+    if (name) {
+        const card = document.getElementById('card');
+        card.style.display = 'block';
+        
+        document.title = "Thư mời Kỷ Yếu - " + name;
+        document.getElementById('display-name').textContent = name;
+        document.getElementById('display-quote').textContent = quote;
+
+        const detailsContainer = document.getElementById('details-content');
+
+        // KIỂM TRA MÀU ĐỂ RÁP ĐÚNG CẤU TRÚC VÀ FONT
+        if (color === 'pink') {
+            card.classList.add('theme-pink');
+            document.getElementById('display-title').innerHTML = "Thư mời kỷ yếu";
+            
+            detailsContainer.innerHTML = `
+                <div class="time-row">
+                    <span class="time-label">Thời gian :</span>
+                    <span class="time-value">${time}</span>
+                </div>
+                <div class="date-value">${date}</div>
+                <div class="location-value">Địa Điểm : ${locationInfo}</div>
+                <div class="decor-icon">ෆ . ᡣ𐭩 | * ✧ . Ⰶ</div>
+            `;
+            
+        } else {
+            card.classList.add('theme-blue');
+            document.getElementById('display-title').innerHTML = "Thư mời <span>kỉ yếu</span>";
+            
+            // Xử lý ngắt dòng chữ "Lớp" cho đẹp
+            let formattedLocation = locationInfo.replace(' - Lớp', '<br>Lớp').replace('- Lớp', '<br>Lớp');
+            
+            detailsContainer.innerHTML = `
+                <div class="date-value">${date}</div>
+                <div class="time-row">THỜI GIAN: ${time}</div>
+                <div class="location-value">Địa điểm : ${formattedLocation}</div>
+            `;
+        }
+    } else {
+        document.getElementById('error-msg').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
