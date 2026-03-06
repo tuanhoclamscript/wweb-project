@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Thư Mời Kỷ Yếu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #667eea; --secondary: #764ba2; }
+        body { 
+            font-family: 'Quicksand', sans-serif; margin: 0; padding: 20px; 
+            min-height: 100vh; display: flex; justify-content: center; align-items: center;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
+            width: 100%; max-width: 450px; padding: 35px 30px; 
+            border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18); box-sizing: border-box;
+        }
+        .header-box { text-align: center; margin-bottom: 25px; }
+        .header-box h2 { margin: 0; color: #333; font-size: 26px; font-weight: 700; }
+        .header-box p { color: #666; font-size: 14px; margin-top: 5px; }
+        .form-group { margin-bottom: 18px; }
+        label { font-weight: 600; display: block; margin-bottom: 8px; color: #444; font-size: 14px; }
+        .input-group { position: relative; }
+        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888; transition: 0.3s; }
+        input, select, textarea { 
+            width: 100%; padding: 12px 12px 12px 40px; 
+            border: 2px solid #e1e5ee; border-radius: 10px; box-sizing: border-box; 
+            font-size: 14px; font-family: 'Quicksand', sans-serif;
+            background: rgba(255,255,255,0.8); transition: all 0.3s ease;
+        }
+        textarea { padding: 12px; resize: vertical; } 
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+        input:focus + i, select:focus + i { color: var(--primary); }
+        .flex-row { display: flex; gap: 15px; }
+        .flex-row .form-group { flex: 1; }
+        button { 
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white; border: none; border-radius: 10px; margin-top: 15px; 
+            font-size: 16px; font-weight: 700; font-family: 'Quicksand', sans-serif;
+            cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.6); }
+        button:disabled { background: #a0aec0; cursor: not-allowed; transform: none; box-shadow: none;}
+        #result { 
+            display: none; margin-top: 25px; padding: 20px; 
+            background: linear-gradient(to right, #f6f8fd, #f1f6fe); 
+            border-radius: 12px; text-align: center; border: 1px dashed #b5c4f3; animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        #result p { margin-top: 0; font-weight: 600; color: #4a5568; font-size: 15px;}
+        #result a { 
+            color: #e53e3e; font-weight: 700; text-decoration: none; font-size: 18px; 
+            display: inline-block; padding: 10px 20px; background: white; 
+            border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.3s; word-break: break-all;
+        }
+        #result a:hover { color: #c53030; transform: scale(1.05); }
+        .dev-footer { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(0, 0, 0, 0.08); text-align: center; }
+        .dev-footer p { font-size: 13px; color: #555; margin: 0 0 12px 0; font-weight: 600; }
+        .social-icons { display: flex; justify-content: center; gap: 12px; }
+        .social-icons a {
+            display: inline-flex; justify-content: center; align-items: center; width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6); color: #555; text-decoration: none; transition: all 0.3s; font-size: 16px;
+        }
+        .social-icons a:hover { transform: translateY(-3px); background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .social-icons a.fb:hover { color: #1877F2; }
+        .social-icons a.tt:hover { color: #000000; }
+        .social-icons a.ig:hover { color: #E4405F; }
+    </style>
+</head>
+<body>
+    <div class="glass-panel">
+        <div class="header-box">
+            <h2>✨ Tạo Thư Mời Kỷ Yếu ✨</h2>
+            <p>Tự nhập thông tin để tạo link thiệp riêng</p>
+        </div>
+        
+        <form id="form">
+            <div class="form-group">
+                <label>Tên của bạn (Chủ tiệc):</label>
+                <div class="input-group">
+                    <input type="text" id="name" placeholder="VD: HOÀNG THỊ THU TRANG" required>
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Theme màu sắc:</label>
+                <div class="input-group">
+                    <select id="color">
+                        <option value="pink">🌸 Mẫu Hồng (Ngọt ngào, mơ mộng)</option>
+                        <option value="blue">🎓 Mẫu Xanh (Tươi sáng, thanh xuân)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex-row">
+                <div class="form-group">
+                    <label>Ngày chụp (Gõ tự do):</label>
+                    <div class="input-group">
+                        <input type="text" id="date" placeholder="VD: Chủ nhật, 08/06/2025" required>
+                        <i class="fa-regular fa-calendar"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Giờ có mặt:</label>
+                    <div class="input-group">
+                        <input type="text" id="time" placeholder="VD: 8h00 sáng" required>
+                        <i class="fa-regular fa-clock"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Địa điểm & Lớp (Gõ tự do):</label>
+                <div class="input-group">
+                    <input type="text" id="location" placeholder="VD: THPT Tien Du 1" required>
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Lời nhắn gửi lớp (Không bắt buộc):</label>
+                <textarea id="quote" rows="3" placeholder="Ví dụ: Cùng nhau tạo nên những kỷ niệm đẹp nhất nhé!"></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn"><i class="fa-solid fa-wand-magic-sparkles"></i> Tạo Link Chia Sẻ Ngay</button>
+        </form>
+
+        <div id="result">
+            <p id="statusText">⏳ Đang xử lý phép thuật...</p>
+            <a href="#" id="link" target="_blank"></a>
+        </div>
+
+        <div class="dev-footer">
+            <p>Code with <i class="fa-solid fa-heart" style="color: #e53e3e;"></i> by <strong>Tên Của Bạn</strong></p>
+            <div class="social-icons">
+                <a href="#LINK_FB" target="_blank" class="fb" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#LINK_TIKTOK" target="_blank" class="tt" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#LINK_IG" target="_blank" class="ig" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('form').onsubmit = function(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            const resultBox = document.getElementById('result');
+            const statusText = document.getElementById('statusText');
+            const linkTag = document.getElementById('link');
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tạo link...';
+            resultBox.style.display = 'block';
+            statusText.innerHTML = "⏳ Hệ thống đang rút gọn link...<br><small style='color:#718096; font-weight:normal;'>Sẽ mất khoảng 2-3 giây</small>";
+            linkTag.style.display = 'none';
+
+            const selectedColor = document.getElementById('color').value;
+            let customQuote = document.getElementById('quote').value.trim();
+            if (customQuote === "") {
+                customQuote = selectedColor === 'pink' 
+                    ? 'Đây là ngày mà tớ muốn lưu lại những khoảnh khắc đẹp đẽ nhất của thời học sinh.\nHy vọng những bức ảnh thanh xuân tươi đẹp của tớ sẽ có sự tham gia của cậu.\n"Sự có mặt của cậu chính là niềm hạnh phúc của tớ !" 💖'
+                    : '"Hy vọng cậu sẽ là một phần trong bức ảnh thanh xuân tươi đẹp của mình"';
+            }
+
+            let baseUrl = window.location.href.split('index.html')[0];
+            if (!baseUrl.endsWith('/')) baseUrl += '/';
+            const params = new URLSearchParams({
+                name: document.getElementById('name').value, color: selectedColor, date: document.getElementById('date').value,
+                time: document.getElementById('time').value, location: document.getElementById('location').value, quote: customQuote
+            });
+            const longUrl = baseUrl + 'invitation.html?' + params.toString();
+
+            const script = document.createElement('script');
+            script.src = `https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}&callback=handleShortenResponse`;
+            document.body.appendChild(script);
+
+            const timeout = setTimeout(() => { showResult(longUrl, "⚠️ Mạng hơi chậm, dùng tạm link gốc nhé:"); }, 6000);
+
+            window.handleShortenResponse = function(data) {
+                clearTimeout(timeout);
+                if (data.shorturl) { showResult(data.shorturl, "🎉 Thành công! Copy link này gửi vào group lớp ngay:"); } 
+                else { showResult(longUrl, "⚠️ Lỗi rút gọn link, dùng tạm link gốc nhé:"); }
+            };
+
+            function showResult(finalUrl, message) {
+                statusText.innerHTML = message; linkTag.href = finalUrl; linkTag.textContent = finalUrl;
+                linkTag.style.display = 'inline-block'; submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Tạo Lại Thiệp Khác';
+            }
+        };
+    </script>
+</body>
+</html>
