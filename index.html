@@ -218,85 +218,86 @@
     .t-blue .location-box  { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; line-height: 1.5; text-align: center; padding: 0 22px; color: #0a3050; display: block; }
 
     /* ================================================================
-       THEME PRINCESS — Vintage castle style
-       Layout đúng theo ảnh mẫu:
-         16% "Graduation" + "from" (căn trái)
-         29% 👑 Crown + tháng  (details-block)
-         38% Tên (name-block, căn giữa, dưới crown)
-         46% Hàng ngày [Thứ][Số][Giờ]
-         55% Năm
-         60% Address bar
-         68% Quote
+       THEME PRINCESS
+       Đo theo ảnh thực tế (aspect 9/19.5):
+         ~18% Graduation + from
+         ~28% 👑 crown
+         ~31% tháng X
+         ~37% Tên
+         ~43% [Thứ | 22 | Giờ]
+         ~51% 2026
+         ~55% Address
+         ~63% Quote
     ================================================================ */
     .t-princess { background-image: url('bg-princess.png'); }
 
     /* Title "Graduation" */
-    .t-princess .title-block { top: 16%; left: 6%; width: 70%; text-align: left; }
+    .t-princess .title-block { top: 17%; left: 5%; width: 72%; text-align: left; }
     .t-princess .title {
         font-family: 'Great Vibes', cursive;
-        font-size: 52px; color: #5a2030;
-        line-height: 1.05; text-shadow: 0 1px 6px rgba(90,32,48,.18);
+        font-size: 50px; color: #5a2030;
+        line-height: 1.0; text-shadow: 0 1px 6px rgba(90,32,48,.18);
     }
     .t-princess .title-from {
         font-family: 'Playfair Display', serif;
-        font-size: 15px; font-style: italic; color: #7a3848;
-        display: block; margin-top: 2px; margin-left: 4px;
+        font-size: 14px; font-style: italic; color: #7a3848;
+        display: block; margin-top: 0px; margin-left: 6px;
     }
 
-    /* Details: Crown emoji + tháng — nằm TRÊN tên */
+    /* Crown + tháng */
     .t-princess .details-block { top: 27%; color: #5a2030; }
     .t-princess .crown-row {
-        font-size: 30px; display: block; margin-bottom: 1px; line-height: 1;
+        font-size: 26px; display: block; line-height: 1; margin-bottom: 2px;
     }
     .t-princess .month-cursive {
         font-family: 'Great Vibes', cursive;
-        font-size: 34px; color: #7a3040; display: block; margin-bottom: 0; line-height: 1.1;
+        font-size: 32px; color: #7a3040; display: block; line-height: 1.15;
     }
 
-    /* Tên — nằm DƯỚI crown/tháng */
+    /* Tên */
     .t-princess .name-block { top: 37%; }
     .t-princess .name {
         font-family: 'Playfair Display', serif;
-        font-size: 21px; font-weight: 700;
+        font-size: 20px; font-weight: 700;
         color: #3a1020; letter-spacing: 1.5px; text-transform: none;
     }
 
-    /* Hàng [Thứ] [Số ngày] [Giờ] */
+    /* Hàng ngày */
     .t-princess .day-row {
         display: flex; align-items: center; justify-content: center;
-        gap: 0; margin: 0 12px 6px;
-        border-top: 1px solid rgba(90,32,48,.25);
-        border-bottom: 1px solid rgba(90,32,48,.25);
-        padding: 5px 0;
+        gap: 0; margin: 0 10px 4px;
+        border-top: 1px solid rgba(90,32,48,.3);
+        border-bottom: 1px solid rgba(90,32,48,.3);
+        padding: 4px 0;
     }
     .t-princess .day-cell {
-        flex: 1; text-align: center; padding: 2px 6px;
-        font-family: 'Lora', serif; font-size: 13px; font-weight: 600; color: #4a1828;
+        flex: 1; text-align: center; padding: 2px 4px;
+        font-family: 'Lora', serif; font-size: 12px; font-weight: 600; color: #4a1828;
     }
     .t-princess .day-cell.day-num {
-        font-size: 34px; font-weight: 700; color: #5a2030; line-height: 1; padding: 0 10px;
+        font-size: 32px; font-weight: 700; color: #5a2030; line-height: 1; padding: 0 8px;
         border-left: 1px solid rgba(90,32,48,.2); border-right: 1px solid rgba(90,32,48,.2);
     }
     .t-princess .year-row {
-        font-family: 'Lora', serif; font-size: 17px; font-weight: 700;
-        color: #3a1020; display: block; margin-top: 5px; margin-bottom: 10px;
+        font-family: 'Lora', serif; font-size: 16px; font-weight: 700;
+        color: #3a1020; display: block; margin-top: 4px; margin-bottom: 8px;
     }
 
     /* Address bar */
     .t-princess .address-bar {
-        display: flex; align-items: center; justify-content: center; gap: 8px;
-        margin: 0 10px; padding: 6px 12px;
-        border-left: 3px solid rgba(90,32,48,.35); border-right: 3px solid rgba(90,32,48,.35);
-        font-family: 'Lora', serif; font-size: 13px; font-weight: 600; color: #3a1020;
-        line-height: 1.45;
+        display: flex; align-items: center; justify-content: center;
+        margin: 0 8px; padding: 5px 10px;
+        border-left: 3px solid rgba(90,32,48,.3); border-right: 3px solid rgba(90,32,48,.3);
+        font-family: 'Lora', serif; font-size: 12.5px; font-weight: 600; color: #3a1020;
+        line-height: 1.4;
     }
 
     /* Quote */
-    .t-princess .quote-block { top: 68%; width: 82%; left: 9%; }
+    .t-princess .quote-block { top: 63%; width: 84%; left: 8%; }
     .t-princess .quote-text {
         font-family: 'Playfair Display', serif;
-        font-size: 12.5px; font-style: italic; font-weight: 600;
-        color: #4a1828; line-height: 1.65; text-align: center;
+        font-size: 12px; font-style: italic; font-weight: 600;
+        color: #4a1828; line-height: 1.6; text-align: center;
     }
 
     /* ================================================================
@@ -684,7 +685,7 @@ function renderCard(name, color, date, time, loc, quote) {
         // Hàng ngày + năm + address → daterow (DƯỚI tên)
         const daterow = document.getElementById('c-daterow');
         daterow.style.display = 'block';
-        daterow.style.top = '44%';
+        daterow.style.top = '43%';
         daterow.innerHTML = `
             <div class="day-row">
                 <div class="day-cell">${thu}</div>
