@@ -3,424 +3,429 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tạo Thư Mời Kỷ Yếu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <title>Thư Mời Kỷ Yếu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Lora:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --pink: #f48fb1;
-            --pink-light: #fce4ec;
-            --blue: #81d4fa;
-            --blue-light: #e3f2fd;
-            --purple: #ce93d8;
-            --gold: #ffe082;
-            --text: #3d2c3e;
-            --card-bg: rgba(255,255,255,0.82);
-        }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Quicksand', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ── SHARED BACKGROUND ── */
+    #bg-layer {
+        position: fixed; inset: 0;
+        background-size: cover; background-position: center; background-repeat: no-repeat;
+        z-index: 0; transition: opacity 0.5s;
+    }
+    #bg-layer.theme-pink { background-image: url('bg-pink.png'); }
+    #bg-layer.theme-blue { background-image: url('bg-blue.png'); }
+    #bg-layer::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,.20); }
 
-        body {
-            font-family: 'Quicksand', sans-serif;
-            min-height: 100vh;
-            display: flex; justify-content: center; align-items: center;
-            padding: 30px 16px;
-            overflow-x: hidden;
-            transition: background-image 0.6s ease;
-        }
+    /* ── PAGE WRAPPERS ── */
+    #page-form, #page-card {
+        display: none; position: relative; z-index: 1;
+        min-height: 100vh; flex-direction: column;
+        justify-content: center; align-items: center;
+        padding: 30px 16px;
+    }
 
-        /* ===================== BACKGROUND LAYER ===================== */
-        #bg-layer {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center;
-            background-repeat: no-repeat;
-            z-index: 0;
-            transition: opacity 0.5s ease;
-        }
-        /* Overlay mờ để chữ dễ đọc hơn */
-        #bg-layer::after {
-            content: '';
-            position: absolute; inset: 0;
-            background: rgba(255,255,255,0.22);
-        }
-        /* Theme pink */
-        #bg-layer.theme-pink { background-image: url('bg-pink.png'); }
-        /* Theme blue */
-        #bg-layer.theme-blue { background-image: url('bg-blue.png'); }
+    /* ================================================================
+       FORM PAGE
+    ================================================================ */
+    :root { --text: #3d2c3e; }
 
-        /* ===================== GLASS CARD ===================== */
-        .glass-panel {
-            position: relative; z-index: 2;
-            background: var(--card-bg);
-            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-            width: 100%; max-width: 460px;
-            padding: 38px 32px 28px;
-            border-radius: 28px;
-            box-shadow:
-                0 8px 32px rgba(244,143,177,0.18),
-                0 2px 8px rgba(129,212,250,0.15),
-                inset 0 1px 0 rgba(255,255,255,0.9);
-            border: 1.5px solid rgba(255,255,255,0.7);
-            animation: cardIn 0.7s cubic-bezier(0.22,1,0.36,1) both;
-        }
-        @keyframes cardIn {
-            from { opacity: 0; transform: translateY(30px) scale(0.97); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
+    .glass-panel {
+        background: rgba(255,255,255,.82);
+        backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+        width: 100%; max-width: 460px; padding: 38px 32px 28px;
+        border-radius: 28px; position: relative;
+        box-shadow: 0 8px 40px rgba(244,143,177,.22), 0 2px 10px rgba(129,212,250,.18), inset 0 1px 0 rgba(255,255,255,.95);
+        border: 1.5px solid rgba(255,255,255,.75);
+        animation: cardIn .7s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes cardIn { from{opacity:0;transform:translateY(28px) scale(.97)} to{opacity:1;transform:none} }
 
-        /* Dải màu cầu vồng pastel trên cùng */
-        .card-rainbow {
-            position: absolute; top: 0; left: 0; right: 0; height: 5px;
-            border-radius: 28px 28px 0 0;
-            background: linear-gradient(90deg, #f48fb1, #ce93d8, #81d4fa, #80cbc4, #ffe082, #f48fb1);
-            background-size: 200% 100%;
-            animation: rainbowMove 4s linear infinite;
-        }
-        @keyframes rainbowMove {
-            0%   { background-position: 0% 0%; }
-            100% { background-position: 200% 0%; }
-        }
+    .card-rainbow {
+        position: absolute; top: 0; left: 0; right: 0; height: 5px; border-radius: 28px 28px 0 0;
+        background: linear-gradient(90deg,#f48fb1,#ce93d8,#81d4fa,#80cbc4,#ffe082,#f48fb1);
+        background-size: 200% 100%; animation: rainbow 4s linear infinite;
+    }
+    @keyframes rainbow { to { background-position: 200% 0 } }
 
-        /* ===================== HEADER ===================== */
-        .header-box { text-align: center; margin-bottom: 28px; }
-        .header-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 46px; color: #d81b60;
-            line-height: 1.1;
-            text-shadow: 0 2px 12px rgba(216,27,96,0.15);
-        }
-        .header-sub {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 12px; font-weight: 600; letter-spacing: 2.5px;
-            text-transform: uppercase; color: #9e7aad; margin-top: 2px;
-        }
-        .header-desc { color: #7b6b7d; font-size: 13.5px; margin-top: 8px; font-weight: 500; }
+    .header-box { text-align: center; margin-bottom: 26px; }
+    .header-title { font-family: 'Great Vibes', cursive; font-size: 46px; color: #d81b60; line-height: 1.1; text-shadow: 0 2px 12px rgba(216,27,96,.15); }
+    .header-sub { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: #9e7aad; margin-top: 2px; }
+    .header-desc { color: #7b6b7d; font-size: 13.5px; margin-top: 8px; font-weight: 500; }
 
-        /* Divider trang trí */
-        .divider {
-            display: flex; align-items: center; gap: 10px;
-            margin: 0 0 22px;
-        }
-        .divider::before, .divider::after {
-            content: ''; flex: 1; height: 1px;
-            background: linear-gradient(to right, transparent, #f0c0d0);
-        }
-        .divider::after { background: linear-gradient(to left, transparent, #c0d8f0); }
-        .divider span { font-size: 16px; }
+    .divider { display: flex; align-items: center; gap: 10px; margin: 0 0 20px; }
+    .divider::before { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, #f0c0d0); }
+    .divider::after  { content: ''; flex: 1; height: 1px; background: linear-gradient(to left,  transparent, #c0d8f0); }
+    .divider span { font-size: 16px; }
 
-        /* ===================== FORM ===================== */
-        .form-group { margin-bottom: 16px; }
-        label {
-            font-weight: 700; display: block; margin-bottom: 7px;
-            color: var(--text); font-size: 13px; letter-spacing: 0.3px;
-        }
-        label i { margin-right: 6px; width: 16px; text-align: center; }
-        label .lbl-pink { color: #e91e8c; }
-        label .lbl-blue { color: #1976d2; }
+    .form-group { margin-bottom: 15px; }
+    label { font-weight: 700; display: block; margin-bottom: 6px; color: var(--text); font-size: 13px; }
+    label i { margin-right: 6px; width: 16px; text-align: center; }
+    .lbl-pink { color: #e91e8c; } .lbl-blue { color: #1976d2; }
 
-        .input-wrap {
-            position: relative;
-        }
-        .input-icon {
-            position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
-            color: #c0a8cc; font-size: 14px; pointer-events: none;
-            transition: color 0.25s;
-        }
-        textarea ~ .input-icon { top: 14px; transform: none; }
+    .input-wrap { position: relative; }
+    .input-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: #c0a8cc; font-size: 14px; pointer-events: none; transition: color .25s; }
 
-        input, select, textarea {
-            width: 100%; padding: 11px 12px 11px 38px;
-            border: 2px solid #e8d5ef;
-            border-radius: 12px;
-            font-size: 14px; font-family: 'Quicksand', sans-serif; font-weight: 500;
-            background: rgba(255,255,255,0.75);
-            color: var(--text);
-            transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
-            outline: none;
-        }
-        textarea { padding: 11px 12px; resize: vertical; min-height: 70px; }
-        input:focus, select:focus, textarea:focus {
-            border-color: #f48fb1;
-            background: #fff;
-            box-shadow: 0 0 0 3.5px rgba(244,143,177,0.18);
-        }
-        input:focus ~ .input-icon,
-        select:focus ~ .input-icon { color: #e91e8c; }
+    input, select, textarea {
+        width: 100%; padding: 11px 12px 11px 38px;
+        border: 2px solid #e8d5ef; border-radius: 12px;
+        font-size: 14px; font-family: 'Quicksand', sans-serif; font-weight: 500;
+        background: rgba(255,255,255,.75); color: var(--text);
+        transition: border-color .25s, box-shadow .25s, background .25s; outline: none;
+    }
+    textarea { padding: 11px 12px; resize: vertical; min-height: 68px; }
+    input:focus, select:focus, textarea:focus { border-color: #f48fb1; background: #fff; box-shadow: 0 0 0 3.5px rgba(244,143,177,.18); }
+    select { appearance: none; cursor: pointer; }
 
-        /* Select custom arrow */
-        select { appearance: none; cursor: pointer; }
+    .flex-row { display: flex; gap: 12px; }
+    .flex-row .form-group { flex: 1; min-width: 0; }
 
-        .flex-row { display: flex; gap: 12px; }
-        .flex-row .form-group { flex: 1; min-width: 0; }
+    .template-badges { display: flex; gap: 8px; margin-bottom: 8px; }
+    .badge { flex: 1; padding: 9px 6px; border-radius: 10px; border: 2px solid transparent; text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .22s; }
+    .badge.pink-badge { border-color: #f8bbd0; color: #c2185b; background: #fce4ec; }
+    .badge.blue-badge { border-color: #b3e5fc; color: #0277bd; background: #e1f5fe; }
+    .badge.active.pink-badge { background: #f48fb1; color: #fff; border-color: #f48fb1; box-shadow: 0 3px 10px rgba(244,143,177,.4); }
+    .badge.active.blue-badge { background: #29b6f6; color: #fff; border-color: #29b6f6; box-shadow: 0 3px 10px rgba(41,182,246,.4); }
+    #color { display: none; }
 
-        /* Template badges */
-        .template-select-wrap { position: relative; }
-        .template-badges {
-            display: flex; gap: 8px; margin-bottom: 8px;
-        }
-        .badge {
-            flex: 1; padding: 9px 6px; border-radius: 10px; border: 2px solid transparent;
-            text-align: center; font-size: 13px; font-weight: 600; cursor: pointer;
-            transition: all 0.22s; background: rgba(255,255,255,0.7);
-        }
-        .badge.pink-badge { border-color: #f8bbd0; color: #c2185b; background: #fce4ec; }
-        .badge.blue-badge { border-color: #b3e5fc; color: #0277bd; background: #e1f5fe; }
-        .badge.active.pink-badge { background: #f48fb1; color: #fff; border-color: #f48fb1; box-shadow: 0 3px 10px rgba(244,143,177,0.4); }
-        .badge.active.blue-badge { background: #29b6f6; color: #fff; border-color: #29b6f6; box-shadow: 0 3px 10px rgba(41,182,246,0.4); }
+    .btn-create {
+        width: 100%; padding: 14px;
+        background: linear-gradient(135deg,#f06292 0%,#ba68c8 50%,#64b5f6 100%);
+        background-size: 200% 100%; color: white; border: none; border-radius: 14px;
+        margin-top: 8px; font-size: 15px; font-weight: 700; font-family: 'Quicksand', sans-serif;
+        cursor: pointer; transition: all .3s; box-shadow: 0 4px 18px rgba(240,98,146,.35);
+        letter-spacing: .5px; position: relative; overflow: hidden;
+    }
+    .btn-create::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg,rgba(255,255,255,.15) 0%,transparent 50%); }
+    .btn-create:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 7px 24px rgba(186,104,200,.45); }
+    .btn-create:disabled { background: #c0b8c8; cursor: not-allowed; box-shadow: none; }
 
-        /* Hidden select */
-        #color { display: none; }
+    #result { display: none; margin-top: 18px; padding: 16px; background: linear-gradient(135deg,#fce4ec,#e3f2fd); border-radius: 14px; text-align: center; border: 1.5px dashed #f48fb1; animation: fadeSlide .45s ease; }
+    @keyframes fadeSlide { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:none} }
+    #result p { font-weight: 700; color: #6a1b9a; font-size: 14px; margin-bottom: 10px; }
+    #result a { color: #c2185b; font-weight: 700; text-decoration: none; font-size: 13px; display: inline-block; padding: 8px 14px; background: white; border-radius: 9px; box-shadow: 0 3px 8px rgba(0,0,0,.08); word-break: break-all; max-width: 100%; transition: .25s; }
+    #result a:hover { color: #880e4f; }
+    .copy-btn { margin-top: 10px; padding: 8px 18px; background: #e91e8c; color: white; border: none; border-radius: 8px; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: .2s; display: inline-flex; align-items: center; gap: 6px; }
+    .copy-btn:hover { background: #c2185b; }
+    .copy-btn.copied { background: #43a047; }
 
-        /* ===================== BUTTON ===================== */
-        .btn-create {
-            width: 100%; padding: 14px;
-            background: linear-gradient(135deg, #f06292 0%, #ba68c8 50%, #64b5f6 100%);
-            background-size: 200% 100%;
-            color: white; border: none; border-radius: 14px;
-            margin-top: 8px; font-size: 15px; font-weight: 700;
-            font-family: 'Quicksand', sans-serif; cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 18px rgba(240,98,146,0.35);
-            letter-spacing: 0.5px;
-            position: relative; overflow: hidden;
-        }
-        .btn-create::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
-        }
-        .btn-create:hover:not(:disabled) {
-            transform: translateY(-2px);
-            background-position: 100% 0;
-            box-shadow: 0 7px 24px rgba(186,104,200,0.45);
-        }
-        .btn-create:active:not(:disabled) { transform: translateY(0); }
-        .btn-create:disabled { background: #c0b8c8; cursor: not-allowed; box-shadow: none; }
+    .dev-footer { margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(206,147,216,.2); text-align: center; }
+    .dev-footer p { font-size: 13px; color: #9e7aad; margin: 0 0 10px; font-weight: 600; }
+    .social-icons { display: flex; justify-content: center; gap: 10px; }
+    .social-icons a { display: inline-flex; justify-content: center; align-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(244,143,177,.1); color: #b48fc0; text-decoration: none; transition: all .25s; font-size: 16px; border: 1.5px solid rgba(244,143,177,.2); }
+    .social-icons a:hover { transform: translateY(-3px); background: white; box-shadow: 0 4px 12px rgba(244,143,177,.3); }
+    .social-icons a.fb:hover { color: #1877F2; border-color: #1877F2; }
+    .social-icons a.tt:hover { color: #000; border-color: #000; }
+    .social-icons a.ig:hover { color: #E4405F; border-color: #E4405F; }
 
-        /* ===================== RESULT BOX ===================== */
-        #result {
-            display: none; margin-top: 20px; padding: 18px;
-            background: linear-gradient(135deg, #fce4ec, #e3f2fd);
-            border-radius: 14px; text-align: center;
-            border: 1.5px dashed #f48fb1;
-            animation: fadeIn 0.45s ease;
-        }
-        @keyframes fadeIn { from { opacity:0; transform: translateY(-8px); } to { opacity:1; transform: translateY(0); } }
-        #result p { font-weight: 700; color: #6a1b9a; font-size: 14px; margin-bottom: 10px; }
-        #result a {
-            color: #c2185b; font-weight: 700; text-decoration: none;
-            font-size: 14px; display: inline-block; padding: 9px 16px;
-            background: white; border-radius: 9px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-            transition: 0.25s; word-break: break-all; max-width: 100%;
-        }
-        #result a:hover { color: #880e4f; box-shadow: 0 4px 14px rgba(194,24,91,0.2); }
-        .copy-btn {
-            margin-top: 10px; padding: 8px 18px;
-            background: #e91e8c; color: white; border: none; border-radius: 8px;
-            font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 13px;
-            cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px;
-        }
-        .copy-btn:hover { background: #c2185b; }
-        .copy-btn.copied { background: #43a047; }
+    @media (max-width: 400px) {
+        .glass-panel { padding: 28px 16px 22px; }
+        .header-title { font-size: 38px; }
+        .flex-row { flex-direction: column; gap: 0; }
+    }
 
-        /* ===================== FOOTER ===================== */
-        .dev-footer {
-            margin-top: 22px; padding-top: 18px;
-            border-top: 1px solid rgba(206,147,216,0.2);
-            text-align: center;
-        }
-        .dev-footer p { font-size: 13px; color: #9e7aad; margin: 0 0 11px; font-weight: 600; }
-        .social-icons { display: flex; justify-content: center; gap: 10px; }
-        .social-icons a {
-            display: inline-flex; justify-content: center; align-items: center;
-            width: 34px; height: 34px; border-radius: 50%;
-            background: rgba(244,143,177,0.1); color: #b48fc0;
-            text-decoration: none; transition: all 0.25s; font-size: 16px;
-            border: 1.5px solid rgba(244,143,177,0.2);
-        }
-        .social-icons a:hover { transform: translateY(-3px); background: white; box-shadow: 0 4px 12px rgba(244,143,177,0.3); }
-        .social-icons a.fb:hover { color: #1877F2; border-color: #1877F2; }
-        .social-icons a.tt:hover { color: #000; border-color: #000; }
-        .social-icons a.ig:hover { color: #E4405F; border-color: #E4405F; }
+    /* ================================================================
+       CARD (INVITATION) PAGE
+    ================================================================ */
+    .back-btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        margin-bottom: 16px; padding: 9px 20px;
+        background: rgba(255,255,255,.85); backdrop-filter: blur(10px);
+        border: 1.5px solid rgba(255,255,255,.7); border-radius: 20px;
+        color: #6a1b9a; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 13px;
+        cursor: pointer; text-decoration: none; transition: all .25s;
+        box-shadow: 0 2px 10px rgba(0,0,0,.1);
+    }
+    .back-btn:hover { background: white; box-shadow: 0 4px 16px rgba(0,0,0,.15); transform: translateY(-1px); }
 
-        /* Mobile tweak */
-        @media (max-width: 400px) {
-            .glass-panel { padding: 30px 18px 22px; }
-            .header-title { font-size: 38px; }
-            .flex-row { flex-direction: column; gap: 0; }
-        }
+    .card-container {
+        width: 100%; max-width: 420px; aspect-ratio: 9/19.5;
+        background-size: cover; background-position: center; background-repeat: no-repeat;
+        position: relative; overflow: hidden; background-color: white;
+        box-shadow: 0 10px 40px rgba(0,0,0,.35);
+        animation: fadeIn .8s ease-out forwards;
+    }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+
+    /* TEXT BLOCKS */
+    .title-block   { position: absolute; width: 100%; text-align: center; }
+    .name-block    { position: absolute; width: 100%; text-align: center; }
+    .details-block { position: absolute; width: 100%; text-align: center; }
+    .quote-block   { position: absolute; width: 84%; left: 8%; text-align: center; }
+
+    .title { font-family: 'Great Vibes', cursive; font-size: 56px; margin: 0; line-height: 1.15; }
+    .name  { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; text-transform: uppercase; margin: 0; letter-spacing: 2.5px; }
+    .quote { font-family: 'Playfair Display', serif; font-size: 13.5px; line-height: 1.65; white-space: pre-line; margin: 0; padding: 0 10px; }
+
+    /* THEME HỒNG
+       Thứ tự từ trên xuống:
+       26% title | 34% name | 40% quote | 56% decor | 60% details
+    */
+    .t-pink { background-image: url('bg-pink.png'); }
+
+    .t-pink .title-block { top: 26%; }
+    .t-pink .title { color: #5a1a2a; font-size: 52px; text-shadow: 0 1px 3px rgba(0,0,0,.15); }
+
+    .t-pink .divider-card { width: 55%; height: 1px; background: linear-gradient(to right, transparent, #b07080, transparent); margin: 6px auto; }
+
+    .t-pink .name-block { top: 34%; }
+    .t-pink .name { color: #3a0a18; font-size: 22px; letter-spacing: 3px; text-shadow: 0 1px 2px rgba(0,0,0,.12); }
+
+    /* ── QUOTE lên trên, ngay sau tên ── */
+    .t-pink .quote-block { top: 40%; width: 80%; left: 10%; }
+    .t-pink .quote-text  { color: #4a1525; font-weight: 700; font-style: italic; font-size: 13px; line-height: 1.6; text-shadow: 0 1px 2px rgba(255,255,255,.6); }
+
+    /* ── Decor giữa quote và details ── */
+    .t-pink .decor-icon { position: absolute; width: 100%; text-align: center; font-size: 16px; color: #8a4050; letter-spacing: 5px; top: 57%; }
+
+    /* ── Details (thời gian/ngày/địa điểm) xuống dưới ── */
+    .t-pink .details-block { top: 62%; }
+    .t-pink .label-cursive { font-family: 'Great Vibes', cursive; font-size: 34px; color: #3a0a18; line-height: 1.1; display: block; margin-bottom: 2px; text-shadow: 0 1px 3px rgba(0,0,0,.1); }
+    .t-pink .time-value    { font-family: 'Lora', serif; font-size: 19px; font-weight: 700; color: #2a0810; display: block; margin-bottom: 4px; }
+    .t-pink .date-value    { font-family: 'Lora', serif; font-size: 14px; font-weight: 600; color: #3a1020; display: block; margin-bottom: 8px; }
+    .t-pink .location-value{ font-family: 'Lora', serif; font-size: 14px; font-weight: 700; color: #2a0810; display: block; padding: 0 16px; line-height: 1.5; }
+
+    /* THEME XANH
+       Thứ tự từ trên xuống:
+       8% title | 28% name | 34% quote | 48% details
+    */
+    .t-blue { background-image: url('bg-blue.png'); }
+
+    .t-blue .title-block { top: 8%; left: 0; width: 58%; text-align: left; padding-left: 6%; }
+    .t-blue .title { color: #1a5f78; font-size: 50px; line-height: 1.15; text-shadow: 0 1px 4px rgba(0,0,0,.1); }
+
+    .t-blue .name-block { top: 28%; }
+    .t-blue .name { color: #0a3068; font-style: italic; font-size: 22px; letter-spacing: 2px; }
+    .t-blue .name-underline { width: 40%; height: 1.5px; background: linear-gradient(to right, transparent, #2a6f98, transparent); margin: 6px auto 0; }
+
+    /* ── QUOTE lên trên, ngay sau tên ── */
+    .t-blue .quote-block { top: 34%; width: 80%; left: 10%; }
+    .t-blue .quote-text  { color: #0a3a58; font-weight: 700; font-style: italic; font-size: 13px; line-height: 1.65; }
+
+    /* ── Details xuống dưới ── */
+    .t-blue .details-block { top: 50%; color: #1a5070; }
+    .t-blue .date-value    { font-family: 'Lora', serif; font-size: 16px; font-weight: 700; display: block; margin-bottom: 5px; color: #0a3a58; }
+    .t-blue .time-row      { font-family: 'Lora', serif; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 14px; color: #1a5070; }
+    .t-blue .location-label{ font-family: 'Lora', serif; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #1a6080; display: block; margin-bottom: 3px; }
+    .t-blue .location-box  { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; line-height: 1.5; text-align: center; padding: 0 22px; color: #0a3050; display: block; }
     </style>
 </head>
 <body>
 
-<!-- Background image layer -->
 <div id="bg-layer" class="theme-pink"></div>
 
-<div class="glass-panel">
-    <div class="card-rainbow"></div>
-
-    <div class="header-box">
-        <div class="header-title">BTUAN DEV ✨</div>
-        <div class="header-sub">✦ Thiệp Kỷ Yếu Số ✦</div>
-        <div class="header-desc">Điền thông tin để tạo thiệp mời riêng của bạn 🎓</div>
-    </div>
-
-    <div class="divider"><span>🌸</span></div>
-
-    <form id="form" onsubmit="return false;">
-
-        <div class="form-group">
-            <label><i class="fa-solid fa-user lbl-pink"></i> Tên của bạn (Chủ tiệc)</label>
-            <div class="input-wrap">
-                <input type="text" id="name" placeholder="VD: Nguyễn Bá Tuấn" required>
-                <span class="input-icon"><i class="fa-solid fa-user"></i></span>
-            </div>
+<!-- =================== FORM PAGE =================== -->
+<div id="page-form">
+    <div class="glass-panel">
+        <div class="card-rainbow"></div>
+        <div class="header-box">
+            <div class="header-title">TOOL ✨</div>
+            <div class="header-sub">✦ BTUAN DEV? ✦</div>
+            <div class="header-desc">Điền thông tin để tạo thiệp mời riêng của bạn 🎓</div>
         </div>
-
-        <div class="form-group">
-            <label><i class="fa-solid fa-palette lbl-blue"></i> Chọn Mẫu Thiệp</label>
-            <div class="template-badges">
-                <div class="badge pink-badge active" onclick="selectTheme('pink', this)">🌸 Mẫu Hồng</div>
-                <div class="badge blue-badge"        onclick="selectTheme('blue', this)">🎓 Mẫu Xanh</div>
-            </div>
-            <select id="color"><option value="pink">pink</option><option value="blue">blue</option></select>
-        </div>
-
-        <div class="flex-row">
+        <div class="divider"><span>🌸</span></div>
+        <form id="form" onsubmit="return false;">
             <div class="form-group">
-                <label><i class="fa-regular fa-calendar lbl-pink"></i> Ngày chụp</label>
+                <label><i class="fa-solid fa-user lbl-pink"></i> Tên của bạn (Chủ tiệc)</label>
                 <div class="input-wrap">
-                    <input type="text" id="date" placeholder="VD: CN, 08/06/2025" required>
-                    <span class="input-icon"><i class="fa-regular fa-calendar"></i></span>
+                    <input type="text" id="f-name" placeholder="VD: Nguyễn Bá Tuấn" required>
+                    <span class="input-icon"><i class="fa-solid fa-user"></i></span>
                 </div>
             </div>
             <div class="form-group">
-                <label><i class="fa-regular fa-clock lbl-blue"></i> Giờ có mặt</label>
-                <div class="input-wrap">
-                    <input type="text" id="time" placeholder="VD: 8h00 sáng" required>
-                    <span class="input-icon"><i class="fa-regular fa-clock"></i></span>
+                <label><i class="fa-solid fa-palette lbl-blue"></i> Chọn Mẫu Thiệp</label>
+                <div class="template-badges">
+                    <div class="badge pink-badge active" onclick="selectTheme('pink',this)">🌸 Mẫu Hồng</div>
+                    <div class="badge blue-badge"        onclick="selectTheme('blue',this)">🎓 Mẫu Xanh</div>
+                </div>
+                <select id="color"><option value="pink">pink</option><option value="blue">blue</option></select>
+            </div>
+            <div class="flex-row">
+                <div class="form-group">
+                    <label><i class="fa-regular fa-calendar lbl-pink"></i> Ngày chụp</label>
+                    <div class="input-wrap">
+                        <input type="text" id="f-date" placeholder="VD: CN, 08/06/2025" required>
+                        <span class="input-icon"><i class="fa-regular fa-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-regular fa-clock lbl-blue"></i> Giờ có mặt</label>
+                    <div class="input-wrap">
+                        <input type="text" id="f-time" placeholder="VD: 8h00 sáng" required>
+                        <span class="input-icon"><i class="fa-regular fa-clock"></i></span>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            <label><i class="fa-solid fa-location-dot lbl-pink"></i> Địa điểm &amp; Lớp</label>
-            <div class="input-wrap">
-                <input type="text" id="location" placeholder="VD: THPT Tiên Du số 1 - Lớp 12A1" required>
-                <span class="input-icon"><i class="fa-solid fa-location-dot"></i></span>
+            <div class="form-group">
+                <label><i class="fa-solid fa-location-dot lbl-pink"></i> Địa điểm &amp; Lớp</label>
+                <div class="input-wrap">
+                    <input type="text" id="f-location" placeholder="VD: THPT Tiên Du số 1 - Lớp 12A1" required>
+                    <span class="input-icon"><i class="fa-solid fa-location-dot"></i></span>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            <label><i class="fa-solid fa-quote-left lbl-blue"></i> Lời nhắn gửi</label>
-            <div class="input-wrap">
-                <textarea id="quote" rows="2" placeholder="Cùng nhau tạo những kỷ niệm đẹp nhất!"></textarea>
+            <div class="form-group">
+                <label><i class="fa-solid fa-quote-left lbl-blue"></i> Lời nhắn gửi</label>
+                <div class="input-wrap">
+                    <textarea id="f-quote" rows="2" placeholder="Cùng nhau tạo những kỷ niệm đẹp nhất!"></textarea>
+                </div>
             </div>
+            <button class="btn-create" id="submitBtn" onclick="handleSubmit()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>&nbsp; Tạo Link Chia Sẻ Ngay
+            </button>
+        </form>
+
+        <div id="result">
+            <p id="statusText">⏳ Đang xử lý...</p>
+            <a href="#" id="link" target="_blank" style="display:none;"></a><br>
+            <button class="copy-btn" id="copyBtn" style="display:none;" onclick="copyLink()">
+                <i class="fa-regular fa-copy"></i> Sao chép link
+            </button>
         </div>
 
-        <button class="btn-create" id="submitBtn" onclick="handleSubmit()">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>&nbsp; Tạo Link Chia Sẻ Ngay
-        </button>
-    </form>
-
-    <div id="result">
-        <p id="statusText">⏳ Đang xử lý phép thuật...</p>
-        <a href="#" id="link" target="_blank" style="display:none;"></a>
-        <br>
-        <button class="copy-btn" id="copyBtn" style="display:none;" onclick="copyLink()">
-            <i class="fa-regular fa-copy"></i> Sao chép link
-        </button>
-    </div>
-
-    <div class="dev-footer">
-        <p>Code with <i class="fa-solid fa-heart" style="color:#e91e8c;"></i> by <strong>BTUAN DEV</strong></p>
-        <div class="social-icons">
-            <a href="#" target="_blank" class="fb" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" target="_blank" class="tt" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-            <a href="#" target="_blank" class="ig" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <div class="dev-footer">
+            <p>Code with <i class="fa-solid fa-heart" style="color:#e91e8c;"></i> by <strong>BTUAN DEV</strong></p>
+            <div class="social-icons">
+                <a href="#" target="_blank" class="fb"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" target="_blank" class="tt"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#" target="_blank" class="ig"><i class="fa-brands fa-instagram"></i></a>
+            </div>
         </div>
     </div>
 </div>
 
+<!-- =================== CARD PAGE =================== -->
+<div id="page-card">
+    <button class="back-btn" onclick="goBack()">
+        <i class="fa-solid fa-arrow-left"></i> Tạo thiệp của bạn
+    </button>
+    <div class="card-container" id="card">
+        <div class="title-block"><div class="title" id="c-title">Thư mời kỷ yếu</div></div>
+        <div class="name-block">
+            <div class="name" id="c-name"></div>
+            <div id="c-name-deco"></div>
+        </div>
+        <div class="details-block"><div id="c-details"></div></div>
+        <div id="c-decor" class="decor-icon" style="display:none;">ෆ . ᡣ𐭩 | ✧ . Ⰶ</div>
+        <div class="quote-block"><div class="quote-text quote" id="c-quote"></div></div>
+    </div>
+</div>
+
 <script>
-/* =================== THEME TOGGLE =================== */
+/* ── ROUTER ── */
+const Q = new URLSearchParams(window.location.search);
+const pName = Q.get('name'), pColor = Q.get('color') || 'pink',
+      pDate = Q.get('date'), pTime  = Q.get('time'),
+      pLoc  = Q.get('location'), pQuote = Q.get('quote');
+
+if (pName) {
+    renderCard(pName, pColor, pDate, pTime, pLoc, pQuote);
+} else {
+    document.getElementById('page-form').style.display = 'flex';
+}
+
+/* ── FORM LOGIC ── */
 function selectTheme(val, el) {
     document.getElementById('color').value = val;
     document.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
     el.classList.add('active');
-    // Đổi background theo theme
-    const bg = document.getElementById('bg-layer');
-    bg.classList.remove('theme-pink', 'theme-blue');
-    bg.classList.add('theme-' + val);
+    document.getElementById('bg-layer').className = 'theme-' + val;
 }
 
-/* =================== SUBMIT =================== */
 function handleSubmit() {
-    const name = document.getElementById('name').value.trim();
-    const date = document.getElementById('date').value.trim();
-    const time = document.getElementById('time').value.trim();
-    const location = document.getElementById('location').value.trim();
-    if (!name || !date || !time || !location) { alert('Vui lòng điền đầy đủ thông tin!'); return; }
+    const name = document.getElementById('f-name').value.trim();
+    const date = document.getElementById('f-date').value.trim();
+    const time = document.getElementById('f-time').value.trim();
+    const loc  = document.getElementById('f-location').value.trim();
+    if (!name || !date || !time || !loc) { alert('Vui lòng điền đầy đủ thông tin!'); return; }
 
-    const submitBtn = document.getElementById('submitBtn');
-    const resultBox = document.getElementById('result');
-    const statusText = document.getElementById('statusText');
-    const linkTag = document.getElementById('link');
-    const copyBtn = document.getElementById('copyBtn');
+    const btn  = document.getElementById('submitBtn');
+    const box  = document.getElementById('result');
+    const stat = document.getElementById('statusText');
+    const lnk  = document.getElementById('link');
+    const cpb  = document.getElementById('copyBtn');
 
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tạo link...';
-    resultBox.style.display = 'block';
-    statusText.innerHTML = "⏳ Hệ thống đang rút gọn link...<br><small style='color:#9e7aad;font-weight:500;'>Sẽ mất khoảng 2–3 giây</small>";
-    linkTag.style.display = 'none';
-    copyBtn.style.display = 'none';
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tạo link...';
+    box.style.display = 'block';
+    stat.innerHTML = "⏳ Đang rút gọn link...<br><small style='color:#9e7aad;font-weight:500;'>Mất khoảng 2–3 giây</small>";
+    lnk.style.display = 'none'; cpb.style.display = 'none';
 
-    const selectedColor = document.getElementById('color').value;
-    let customQuote = document.getElementById('quote').value.trim();
-    if (!customQuote) {
-        customQuote = selectedColor === 'pink'
-            ? 'Đây là ngày mà tớ muốn lưu lại những khoảnh khắc đẹp đẽ nhất của thời học sinh.\nHy vọng những bức ảnh thanh xuân tươi đẹp của tớ sẽ có sự tham gia của cậu.\n"Sự có mặt của cậu chính là niềm hạnh phúc của tớ !" 💖'
-            : '"Hy vọng cậu sẽ là một phần trong bức ảnh thanh xuân tươi đẹp của mình"';
-    }
+    const color = document.getElementById('color').value;
+    let quote = document.getElementById('f-quote').value.trim();
+    if (!quote) quote = color === 'pink'
+        ? 'Đây là ngày mà tớ muốn lưu lại những khoảnh khắc đẹp đẽ nhất của thời học sinh.\nHy vọng những bức ảnh thanh xuân tươi đẹp của tớ sẽ có sự tham gia của cậu.\n"Sự có mặt của cậu chính là niềm hạnh phúc của tớ !" 💖'
+        : '"Hy vọng cậu sẽ là một phần trong bức ảnh thanh xuân tươi đẹp của mình"';
 
-    let baseUrl = window.location.href.split('index.html')[0];
-    if (!baseUrl.endsWith('/')) baseUrl += '/';
-    const params = new URLSearchParams({ name, color: selectedColor, date, time, location, quote: customQuote });
-    const longUrl = baseUrl + 'invitation.html?' + params.toString();
+    /* Link trỏ lại chính file này */
+    const base   = window.location.href.split('?')[0];
+    const params = new URLSearchParams({ name, color, date, time, location: loc, quote });
+    const longUrl = base + '?' + params.toString();
 
-    const script = document.createElement('script');
-    script.src = `https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}&callback=handleShortenResponse`;
-    document.body.appendChild(script);
+    /* Rút gọn is.gd */
+    const s = document.createElement('script');
+    s.src = `https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}&callback=_isgd`;
+    document.body.appendChild(s);
 
-    const timeout = setTimeout(() => showResult(longUrl, "⚠️ Mạng hơi chậm, dùng tạm link gốc nhé:"), 6000);
+    const to = setTimeout(() => done(longUrl, '⚠️ Mạng chậm, dùng tạm link gốc:'), 6000);
 
-    window.handleShortenResponse = function(data) {
-        clearTimeout(timeout);
-        showResult(data.shorturl || longUrl, data.shorturl ? "🎉 Thành công! Copy link gửi vào group lớp nhé:" : "⚠️ Lỗi rút gọn, dùng tạm link gốc:");
-    };
+    window._isgd = d => { clearTimeout(to); done(d.shorturl || longUrl, d.shorturl ? '🎉 Thành công! Gửi link vào group lớp nhé:' : '⚠️ Lỗi rút gọn, dùng link gốc:'); };
 
-    function showResult(finalUrl, message) {
-        statusText.innerHTML = message;
-        linkTag.href = finalUrl; linkTag.textContent = finalUrl;
-        linkTag.style.display = 'inline-block';
-        copyBtn.style.display = 'inline-flex';
-        copyBtn._url = finalUrl;
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Tạo Lại Thiệp Khác';
+    function done(url, msg) {
+        stat.innerHTML = msg;
+        lnk.href = url; lnk.textContent = url; lnk.style.display = 'inline-block';
+        cpb.style.display = 'inline-flex'; cpb._url = url;
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Tạo Lại Thiệp Khác';
     }
 }
 
-/* =================== COPY =================== */
 function copyLink() {
     const btn = document.getElementById('copyBtn');
-    const url = btn._url || document.getElementById('link').href;
-    navigator.clipboard.writeText(url).then(() => {
+    navigator.clipboard.writeText(btn._url || document.getElementById('link').href).then(() => {
         btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã sao chép!';
         btn.classList.add('copied');
         setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-copy"></i> Sao chép link'; btn.classList.remove('copied'); }, 2500);
     });
 }
 
+/* ── CARD RENDER ── */
+function renderCard(name, color, date, time, loc, quote) {
+    document.getElementById('page-form').style.display = 'none';
+    document.getElementById('page-card').style.display = 'flex';
+    document.title = 'Thư mời Kỷ Yếu – ' + name;
+
+    document.getElementById('bg-layer').className = 'theme-' + color;
+    const card = document.getElementById('card');
+    document.getElementById('c-name').textContent  = name;
+    document.getElementById('c-quote').textContent = quote;
+
+    if (color === 'pink') {
+        card.classList.add('t-pink');
+        document.getElementById('c-title').textContent = 'Thư mời kỷ yếu';
+        document.getElementById('c-name-deco').innerHTML = '<div class="divider-card"></div>';
+        document.getElementById('c-decor').style.display = 'block';
+        document.getElementById('c-details').innerHTML = `
+            <span class="label-cursive">Thời gian :</span>
+            <span class="time-value">${time}</span>
+            <span class="date-value">${date}</span>
+            <span class="location-value">📍 Địa điểm : ${loc}</span>`;
+    } else {
+        card.classList.add('t-blue');
+        document.getElementById('c-title').innerHTML = 'Thư mời<br>kỉ yếu';
+        document.getElementById('c-name-deco').innerHTML = '<div class="name-underline"></div>';
+        const fLoc = loc.replace(/\s*[-–]\s*Lớp/g, '<br>Lớp');
+        document.getElementById('c-details').innerHTML = `
+            <span class="date-value">${date}</span>
+            <span class="time-row">⏱ Thời gian : ${time}</span>
+            <span class="location-label">📍 Địa điểm</span>
+            <span class="location-box">${fLoc}</span>`;
+    }
+}
+
+function goBack() { window.location.href = window.location.pathname; }
 </script>
 </body>
 </html>
