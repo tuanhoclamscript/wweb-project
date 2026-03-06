@@ -18,7 +18,9 @@
     }
     #bg-layer.theme-pink { background-image: url('bg-pink.png'); }
     #bg-layer.theme-blue { background-image: url('bg-blue.png'); }
-    #bg-layer.theme-princess { background-image: url('bg-princess.png'); }
+    #bg-layer.theme-princess { background-image: url('bg-princess.png'); background-color: #f5dde0; }
+    /* Giảm overlay cho princess để ảnh hiện rõ hơn */
+    #bg-layer.theme-princess::after { background: rgba(255,255,255,.08); }
     #bg-layer::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,.20); }
 
     /* ── PAGE WRAPPERS ── */
@@ -550,6 +552,7 @@ function selectTheme(val, el) {
     document.getElementById('color').value = val;
     document.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
     el.classList.add('active');
+    // Set bg-layer class đúng prefix
     document.getElementById('bg-layer').className = 'theme-' + val;
 }
 
@@ -623,6 +626,16 @@ function renderCard(name, color, date, time, loc, quote) {
     document.getElementById('c-name').textContent  = name;
     document.getElementById('c-quote').textContent = quote;
 
+    // Map màu → file ảnh nền tuyệt đối
+    const bgMap = {
+        pink:      'bg-pink.png',
+        blue:      'bg-blue.png',
+        princess:  'bg-princess.png'
+    };
+    // Set inline để đảm bảo đúng path bất kể CSS resolve thế nào
+    const base = window.location.href.split('?')[0].replace(/\/[^/]*$/, '/');
+    card.style.backgroundImage = `url('${base}${bgMap[color] || bgMap.pink}')`;
+
     if (color === 'pink') {
         card.classList.add('t-pink');
         document.getElementById('c-title').textContent = 'Thư mời kỷ yếu';
@@ -647,9 +660,7 @@ function renderCard(name, color, date, time, loc, quote) {
         // Princess theme
         card.classList.add('t-princess');
 
-        // Parse date để tách thứ, số ngày, tháng, năm
-        // date format VD: "Thứ bảy, 07/03/2026" hoặc "Thứ bảy 07/03/2026"
-        let thu = '', soNgay = '', thang = '', nam = '', dateFull = date;
+        let thu = '', soNgay = '', thang = '', nam = '';
         const dateMatch = date.match(/^(.*?)[,\s]+(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})/);
         if (dateMatch) {
             thu = dateMatch[1].trim();
@@ -657,8 +668,7 @@ function renderCard(name, color, date, time, loc, quote) {
             thang = dateMatch[3];
             nam = dateMatch[4];
         } else {
-            // fallback: hiện nguyên date
-            thu = date; soNgay = ''; thang = ''; nam = '';
+            thu = date;
         }
 
         document.getElementById('c-title').innerHTML =
