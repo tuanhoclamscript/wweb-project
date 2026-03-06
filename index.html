@@ -219,16 +219,14 @@
 
     /* ================================================================
        THEME PRINCESS — Vintage castle style
-       Layout (top→bottom):
-         18% "Graduation" title (Great Vibes, căn trái)
-         28% "from" italic nhỏ
-         33% Tên (Playfair bold, căn giữa)
-         40% 👑 Crown emoji
-         44% Tháng (Great Vibes)
-         50% Hàng ngày: [Thứ] [Số] [Giờ] dạng bảng
-         59% Năm
-         64% Address bar
-         72% Quote
+       Layout đúng theo ảnh mẫu:
+         16% "Graduation" + "from" (căn trái)
+         29% 👑 Crown + tháng  (details-block)
+         38% Tên (name-block, căn giữa, dưới crown)
+         46% Hàng ngày [Thứ][Số][Giờ]
+         55% Năm
+         60% Address bar
+         68% Quote
     ================================================================ */
     .t-princess { background-image: url('bg-princess.png'); }
 
@@ -245,28 +243,30 @@
         display: block; margin-top: 2px; margin-left: 4px;
     }
 
-    /* Tên */
-    .t-princess .name-block { top: 31%; }
+    /* Details: Crown emoji + tháng — nằm TRÊN tên */
+    .t-princess .details-block { top: 27%; color: #5a2030; }
+    .t-princess .crown-row {
+        font-size: 30px; display: block; margin-bottom: 1px; line-height: 1;
+    }
+    .t-princess .month-cursive {
+        font-family: 'Great Vibes', cursive;
+        font-size: 34px; color: #7a3040; display: block; margin-bottom: 0; line-height: 1.1;
+    }
+
+    /* Tên — nằm DƯỚI crown/tháng */
+    .t-princess .name-block { top: 37%; }
     .t-princess .name {
         font-family: 'Playfair Display', serif;
         font-size: 21px; font-weight: 700;
         color: #3a1020; letter-spacing: 1.5px; text-transform: none;
     }
 
-    /* Crown + tháng */
-    .t-princess .details-block { top: 39%; color: #5a2030; }
-    .t-princess .crown-row {
-        font-size: 26px; display: block; margin-bottom: 2px; line-height: 1;
-    }
-    .t-princess .month-cursive {
-        font-family: 'Great Vibes', cursive;
-        font-size: 34px; color: #7a3040; display: block; margin-bottom: 6px; line-height: 1.1;
-    }
-
     /* Hàng [Thứ] [Số ngày] [Giờ] */
     .t-princess .day-row {
         display: flex; align-items: center; justify-content: center;
-        gap: 0; margin: 0 12px 6px; border-top: 1px solid rgba(90,32,48,.25); border-bottom: 1px solid rgba(90,32,48,.25);
+        gap: 0; margin: 0 12px 6px;
+        border-top: 1px solid rgba(90,32,48,.25);
+        border-bottom: 1px solid rgba(90,32,48,.25);
         padding: 5px 0;
     }
     .t-princess .day-cell {
@@ -292,12 +292,11 @@
     }
 
     /* Quote */
-    .t-princess .quote-block { top: 69%; width: 82%; left: 9%; }
+    .t-princess .quote-block { top: 68%; width: 82%; left: 9%; }
     .t-princess .quote-text {
         font-family: 'Playfair Display', serif;
         font-size: 12.5px; font-style: italic; font-weight: 600;
-        color: #4a1828; line-height: 1.65;
-        text-align: center;
+        color: #4a1828; line-height: 1.65; text-align: center;
     }
 
     /* ================================================================
@@ -519,6 +518,7 @@
         </div>
         <div class="details-block"><div id="c-details"></div></div>
         <div id="c-decor" class="decor-icon" style="display:none;">ෆ . ᡣ𐭩 | ✧ . Ⰶ</div>
+        <div id="c-daterow" style="display:none; position:absolute; width:100%; text-align:center;"></div>
         <div class="quote-block"><div class="quote-text quote" id="c-quote"></div></div>
     </div>
 </div>
@@ -675,9 +675,17 @@ function renderCard(name, color, date, time, loc, quote) {
             'Graduation<span class="title-from">from</span>';
         document.getElementById('c-name-deco').innerHTML = '';
         document.getElementById('c-decor').style.display = 'none';
+
+        // Crown + tháng → details-block (TRÊN tên)
         document.getElementById('c-details').innerHTML = `
             <span class="crown-row"></span>
-            <span class="month-cursive">tháng ${thang}</span>
+            <span class="month-cursive">tháng ${thang}</span>`;
+
+        // Hàng ngày + năm + address → daterow (DƯỚI tên)
+        const daterow = document.getElementById('c-daterow');
+        daterow.style.display = 'block';
+        daterow.style.top = '44%';
+        daterow.innerHTML = `
             <div class="day-row">
                 <div class="day-cell">${thu}</div>
                 <div class="day-cell day-num">${soNgay}</div>
